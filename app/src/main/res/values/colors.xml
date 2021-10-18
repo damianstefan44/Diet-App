@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="diet_app_main_color">#c300ff</color>
+    <color name="diet_app_main_color_dark">#9c00cc</color>
+    <color name="diet_app_main_color_darker">#8900b3</color>
+    <color name="diet_app_main_color_darkest">#4e0066</color>
+    <color name="diet_app_background_color">#f9e6ff</color>
+    <color name="diet_app_button_text">#FFFFFFFF</color>
+
+    #8900b3
+
+</resources>
