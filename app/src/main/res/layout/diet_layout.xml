@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dietCardView"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/diet_app_main_color_brightest"
+    android:layout_height="50dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_margin="5dp">
+
+    <RelativeLayout
+        android:id="@+id/dietWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/dietLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/dietLoad"
+            android:gravity="center"
+            >
+
+
+            <TextView
+                android:id="@+id/dietName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="7"
+                android:maxWidth="90dp"
+                android:textSize="10dp"
+                android:text="nazwa df d fd fd fd fd fd fd f fffffffffffffffffff " />
+
+            <TextView
+                android:id="@+id/dietCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:maxWidth="72dp"
+                android:textSize="10dp"
+                android:text="12000 kcal"
+                />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/dietLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:layout_toLeftOf="@+id/dietEdit"
+            android:src="@drawable/ic_baseline_load"
+            app:tint="#48C64D" />
+
+        <ImageView
+            android:id="@+id/dietEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:layout_toLeftOf="@+id/dietDelete"
+            android:src="@drawable/ic_baseline_edit"
+            app:tint="#FB8303" />
+
+        <ImageView
+            android:id="@+id/dietDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_delete"
+            app:tint="#FF0000" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

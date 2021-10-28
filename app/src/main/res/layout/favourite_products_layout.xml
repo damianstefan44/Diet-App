@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/favouriteProductsCardView"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/diet_app_main_color_brightest"
+    android:layout_height="50dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_margin="5dp">
+
+    <RelativeLayout
+        android:id="@+id/favouriteProductsWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/favouriteProductsLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/favouriteProductsDelete"
+            android:gravity="center"
+            >
+
+
+            <TextView
+                android:id="@+id/favouriteProductsName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="3"
+                android:maxWidth="90dp"
+                android:textSize="10dp"
+                android:text="nazwa df d fd fd fd fd fd fd f fffffffffffffffffff " />
+
+            <TextView
+                android:id="@+id/favouriteProductsProteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:maxWidth="72dp"
+                android:textSize="10dp"
+                android:text="50 g"
+                />
+            <TextView
+                android:id="@+id/favouriteProductsFats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:maxWidth="72dp"
+                android:textSize="10dp"
+                android:text="124 g"
+                />
+            <TextView
+                android:id="@+id/favouriteProductsCarbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:maxWidth="72dp"
+                android:textSize="10dp"
+                android:text="99 g"
+                />
+
+            <TextView
+                android:id="@+id/favouriteProductsCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:maxWidth="72dp"
+                android:textSize="10dp"
+                android:text="12000 kcal"
+                />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/favouriteProductsDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_delete"
+            app:tint="#FF0000" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
