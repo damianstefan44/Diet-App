@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dateCardView"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/diet_app_main_color_darker"
+    android:layout_height="50dp"
+    android:focusable="true"
+    android:clickable="true"
+    >
+
+    <RelativeLayout
+        android:id="@+id/dateWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/dateLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp"
+            >
+
+
+            <ImageButton
+                android:id="@+id/datePreviousDay"
+                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_weight="1"
+                android:background="#0000"
+                android:src="@drawable/ic_baseline_previous"
+                />
+
+            <TextView
+                android:id="@+id/dateCurrentDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:maxWidth="60dp"
+                android:textSize="12dp"
+                android:text="Pon, 07 list " />
+
+            <ImageButton
+                android:id="@+id/dateNextDay"
+                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_weight="1"
+                android:paddingEnd="5dp"
+                android:background="#0000"
+                android:src="@drawable/ic_baseline_next"
+                />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

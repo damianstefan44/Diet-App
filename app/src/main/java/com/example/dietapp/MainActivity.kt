@@ -5,13 +5,17 @@ import FavouriteProductsFragment
 import MyDietsFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import com.cesarferreira.tempo.Tempo
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,13 @@ class MainActivity : AppCompatActivity() {
         val myDiets = MyDietsFragment()
         val currentDay = CurrentDayFragment()
         val favourites = FavouriteProductsFragment()
+        val dateView: CardView = findViewById<View>(R.id.dateToolbar) as CardView
+
+        val currentDate: Date = Tempo.now
+        Log.e("dzisiaj", currentDate.toString())
+
+
+
 
         val curDay : View = bottomNav.findViewById(R.id.bottom_nav_current_day)
         curDay.performClick()
@@ -38,9 +49,12 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.bottom_nav_current_day->selectFragment(currentDay)
-                R.id.bottom_nav_my_diets->selectFragment(myDiets)
-                R.id.bottom_nav_favourite->selectFragment(favourites)
+                R.id.bottom_nav_current_day->{selectFragment(currentDay)
+                    dateView.visibility = View.VISIBLE}
+                R.id.bottom_nav_my_diets->{selectFragment(myDiets)
+                    dateView.visibility = View.GONE}
+                R.id.bottom_nav_favourite->{selectFragment(favourites)
+                    dateView.visibility = View.GONE}
 
             }
             true

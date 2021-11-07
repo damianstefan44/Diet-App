@@ -1,5 +1,6 @@
 import android.os.Bundle
 import android.view.View
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,7 @@ class FavouriteProductsFragment:Fragment(R.layout.fragment_favourite_products) {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
         val recyclerView: RecyclerView = requireView().findViewById<View>(R.id.favouriteProductsRecycler) as RecyclerView
+
 
 
         recyclerView.apply {

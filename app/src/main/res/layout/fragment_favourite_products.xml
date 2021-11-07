@@ -5,16 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_marginBottom="50dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favouriteProductsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="50dp"
         android:paddingBottom="65dp"
         android:clipToPadding="false"/>
 
@@ -23,7 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="8dp"
+        android:layout_margin="7dp"
+
         android:contentDescription="fab"
         app:layout_constraintBottom_toBottomOf="@+id/favouriteProductsRecycler"
         app:layout_constraintEnd_toEndOf="parent"
