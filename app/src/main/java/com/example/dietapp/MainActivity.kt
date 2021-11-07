@@ -3,17 +3,23 @@ package com.example.dietapp
 import CurrentDayFragment
 import FavouriteProductsFragment
 import MyDietsFragment
-import androidx.appcompat.app.AppCompatActivity
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.cesarferreira.tempo.Tempo
+import com.cesarferreira.tempo.days
+import com.cesarferreira.tempo.minus
+import com.cesarferreira.tempo.plus
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
@@ -35,17 +41,48 @@ class MainActivity : AppCompatActivity() {
         val currentDay = CurrentDayFragment()
         val favourites = FavouriteProductsFragment()
         val dateView: CardView = findViewById<View>(R.id.dateToolbar) as CardView
+        var currDate: TextView = findViewById(R.id.dateCurrentDay)
+        val prevDate: ImageView = findViewById(R.id.datePreviousDay)
+        val nextDate: ImageView = findViewById(R.id.dateNextDay)
 
-        val currentDate: Date = Tempo.now
+        val calendar= Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        var currentDate: Date = Tempo.now
+        currDate.text = getTextViewDate(currentDate)
         Log.e("dzisiaj", currentDate.toString())
-
-
+        Functions.saveDate(this, currentDate.toString())
 
 
         val curDay : View = bottomNav.findViewById(R.id.bottom_nav_current_day)
         curDay.performClick()
 
         selectFragment(currentDay)
+
+        prevDate.setOnClickListener {
+            currentDate -= 1.days
+            Functions.saveDate(this, currentDate.toString())
+            currDate.text = getTextViewDate(currentDate)
+        }
+
+        nextDate.setOnClickListener {
+            currentDate += 1.days
+            Functions.saveDate(this, currentDate.toString())
+            currDate.text = getTextViewDate(currentDate)
+
+        }
+        currDate.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(this@MainActivity, DatePickerDialog.OnDateSetListener
+            { view, year, monthOfYear, dayOfMonth ->
+                currentDate = Tempo.with(year,monthOfYear+1,dayOfMonth)
+                currDate.text = getTextViewDate(currentDate)
+            }, year, month, day)
+            datePickerDialog.show()
+
+
+        }
 
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
@@ -86,6 +123,54 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.fragmentSelector,fragment)
             commit()
         }
+
+    private fun getTextViewDate(date: Date): String{
+
+        val dayOfTheWeek = DateFormat.format("EEEE", date) as String
+        val day = DateFormat.format("dd", date) as String
+        val month = DateFormat.format("MM", date) as String
+        val year = DateFormat.format("yyyy", date) as String
+
+        val properDayOfTheWeek = when (dayOfTheWeek) {
+            "poniedziałek" -> "Pon"
+            "wtorek" -> "Wt"
+            "środa" -> "Śr"
+            "czwartek" -> "Czw"
+            "piątek" -> "Pt"
+            "sobota" -> "Sb"
+            "niedziela" -> "Nd"
+            "Monday" -> "Pon"
+            "Tuesday" -> "Wt"
+            "Wednesday" -> "Śr"
+            "Thursday" -> "Czw"
+            "Friday" -> "Pt"
+            "Saturday" -> "Sb"
+            "Sunday" -> "Nd"
+            else -> {
+                print("ERROR - Zły dzień tygodnia")
+            }
+        }
+        val properMonth = when (month) {
+            "01" -> "sty"
+            "02" -> "lut"
+            "03" -> "mar"
+            "04" -> "kwi"
+            "05" -> "maj"
+            "06" -> "cze"
+            "07" -> "lip"
+            "08" -> "sie"
+            "09" -> "wrz"
+            "10" -> "paź"
+            "11" -> "lis"
+            "12" -> "gru"
+            else -> {
+                print("ERROR - Zły miesiąc")
+            }
+        }
+
+    return "$properDayOfTheWeek $day $properMonth"
+
+    }
 
 
 }
