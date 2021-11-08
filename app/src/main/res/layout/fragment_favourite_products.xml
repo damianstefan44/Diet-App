@@ -8,13 +8,20 @@
     tools:context=".MainActivity"
     android:layout_marginBottom="50dp">
 
+    <include
+        android:id="@+id/favouriteProductsLabel"
+        layout="@layout/favourite_products_label_layout"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favouriteProductsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="50dp"
         android:paddingBottom="65dp"
+        android:paddingTop="25dp"
         android:clipToPadding="false"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
