@@ -16,7 +16,11 @@
     <color name="diet_app_main_color_darkest">#4e0066</color>
     <color name="diet_app_background_color">#f9e6ff</color>
     <color name="diet_app_button_text">#FFFFFFFF</color>
+    <color name="light_green">#b1ffb1</color>
+    <color name="light_red">#ff9a9a</color>
 
-    #8900b3
+
+
+
 
 </resources>

@@ -1,26 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/CurrentDayFragmentText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current day"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:textStyle="italic|bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/breakfastCardView"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
+            android:layout_height="50dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_margin="5dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/breakfastWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <TextView
+                    android:id="@+id/breakfastTextView"
+                    android:layout_width="200dp"
+                    android:layout_height="37dp"
+                    android:layout_margin="5dp"
+                    android:text="Śniadanie"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/breakfastCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="12000 kcal"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/breakfastAdd"
+                    app:layout_constraintStart_toEndOf="@+id/breakfastTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/breakfastAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_baseline_add_circle"
+                    android:backgroundTint="@color/diet_app_main_color_dark"
+                    app:tint="@color/diet_app_main_color_dark" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/breakfastRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+             />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/secondBreakfastCardView"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
+            android:layout_height="50dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_margin="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/secondBreakfastWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <TextView
+                    android:id="@+id/secondBreakfastTextView"
+                    android:layout_width="200dp"
+                    android:layout_height="37dp"
+                    android:layout_margin="5dp"
+                    android:text="Drugie śniadanie"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/secondBreakfastCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="12000 kcal"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/secondBreakfastAdd"
+                    app:layout_constraintStart_toEndOf="@+id/secondBreakfastTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/secondBreakfastAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_baseline_add_circle"
+                    android:backgroundTint="@color/diet_app_main_color_dark"
+                    app:tint="@color/diet_app_main_color_dark" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/secondBreakfastRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+
+            />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/lunchCardView"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
+            android:layout_height="50dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_margin="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lunchWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <TextView
+                    android:id="@+id/lunchTextView"
+                    android:layout_width="200dp"
+                    android:layout_height="37dp"
+                    android:layout_margin="5dp"
+                    android:text="Obiad"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lunchCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="12000 kcal"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/lunchAdd"
+                    app:layout_constraintStart_toEndOf="@+id/lunchTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/lunchAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_baseline_add_circle"
+                    android:backgroundTint="@color/diet_app_main_color_dark"
+                    app:tint="@color/diet_app_main_color_dark"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lunchRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+
+            />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/snackCardView"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
+            android:layout_height="50dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_margin="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/snackWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <TextView
+                    android:id="@+id/snackTextView"
+                    android:layout_width="200dp"
+                    android:layout_height="37dp"
+                    android:layout_margin="5dp"
+                    android:text="Podwieczorek"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/snackCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="12000 kcal"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/snackAdd"
+                    app:layout_constraintStart_toEndOf="@+id/snackTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/snackAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_baseline_add_circle"
+                    android:backgroundTint="@color/diet_app_main_color_dark"
+                    app:tint="@color/diet_app_main_color_dark" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/snackRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+
+            />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/dinnerCardView"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
+            android:layout_height="50dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_margin="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dinnerWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <TextView
+                    android:id="@+id/dinnerTextView"
+                    android:layout_width="200dp"
+                    android:layout_height="37dp"
+                    android:layout_margin="5dp"
+                    android:text="Kolacja"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/dinnerCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="12000 kcal"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/dinnerAdd"
+                    app:layout_constraintStart_toEndOf="@+id/dinnerTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/dinnerAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_baseline_add_circle"
+                    android:backgroundTint="@color/diet_app_main_color_dark"
+                    app:tint="@color/diet_app_main_color_dark" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dinnerRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+
+            />
+
+    </LinearLayout>
+
+</ScrollView>
