@@ -5,25 +5,18 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dietapp.databinding.ActivityRegisterBinding
 import com.example.dietapp.ui.login.LoginActivity
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private var mAuth: FirebaseAuth? = null
-    private val username = null
-    private val password = null
-    private val confirmPassword = null
-    private val nickname = null
+    private var mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,37 +24,33 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.registerUsername
+        val email = binding.registerEmail
         val password = binding.registerPassword
         val confirmPassword = binding.registerConfirmPassword
-        val nickname = binding.registerNickname
+        val username = binding.registerUsername
         val loading = binding.registerLoading
         val registerButton = binding.registerRegister
-        mAuth = FirebaseAuth.getInstance()
 
 
         registerButton.setOnClickListener {
-            loading.visibility = View.VISIBLE
             registerUser()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
         }
 
     }
 
     private fun registerUser(){
 
-        val mail = binding.registerUsername
+        val mail = binding.registerEmail
         val pass = binding.registerPassword
         val confPass = binding.registerConfirmPassword
-        val nick = binding.registerNickname
+        val usr = binding.registerUsername
         val load = binding.registerLoading
+        var allow: Boolean = true
 
         val email = mail.text.toString().trim()
         val password = pass.text.toString().trim()
         val confirmPassword = confPass.text.toString().trim()
-        val nickname = nick.text.toString().trim()
+        val username = usr.text.toString().trim()
 
         if(email.isNullOrEmpty()){
             mail.error = "Email jest wymagany!"
@@ -78,14 +67,19 @@ class RegisterActivity : AppCompatActivity() {
             confPass.requestFocus()
             return
         }
-        if(nickname.isNullOrEmpty()){
-            nick.error = "Pseudonim jest wymagany!"
-            nick.requestFocus()
+        if(username.isNullOrEmpty()){
+            usr.error = "Pseudonim jest wymagany!"
+            usr.requestFocus()
             return
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             mail.error = "Niepoprawny email!"
             mail.requestFocus()
+            return
+        }
+        if(username.length < 6 ){
+            usr.error = "Pseudonim jest za krótki!"
+            usr.requestFocus()
             return
         }
         if(!(password == confirmPassword && password == pass.text.toString())){
@@ -101,27 +95,54 @@ class RegisterActivity : AppCompatActivity() {
 
         load.visibility = View.VISIBLE
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (!it.isSuccessful) {
-                    return@addOnCompleteListener
+
+        val rootRef1 = FirebaseDatabase.getInstance().reference.child("usernames")
+
+
+        val query: Query = FirebaseDatabase.getInstance().reference.child("users").orderByChild("username").equalTo(username)
+
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener {
+                            if (!it.isSuccessful) {
+                                return@addOnCompleteListener
+                            }
+                            // save to firebase
+                            saveUserToFirebaseDatabase(it.toString())
+                            Log.d(
+                                "TAG",
+                                "Successfully registered user in firebase (uid: ${it.result?.user?.uid})"
+                            )
+                            val intent = Intent(applicationContext, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+
+
+                        }
+                        .addOnFailureListener {
+                            Log.d("TAG", "Failed to register user: ${it.message}")
+                            Toast.makeText(
+                                applicationContext,
+                                "Failed to register user: ${it.message}",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            load.visibility = View.GONE
+                        }
                 }
-                // save to firebase
-                saveUserToFirebaseDatabase(it.toString())
-                Log.d(
-                    "TAG",
-                    "Successfully registered user in firebase (uid: ${it.result?.user?.uid})"
-                )
-
-
-            }
-            .addOnFailureListener {
-                Log.d("TAG", "Failed to register user: ${it.message}")
-                Toast.makeText(this, "Failed to register user: ${it.message}", Toast.LENGTH_SHORT)
-                    .show()
+                else{
+                    usr.error = "Pseudonim jest zajęty!"
+                    usr.requestFocus()
+                    load.visibility = View.GONE
+                }
             }
 
-
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG", databaseError.message)
+            }
+        })
 
 
     }
@@ -129,26 +150,36 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val mail = binding.registerUsername
-        val nick = binding.registerNickname
+        val mail = binding.registerEmail
+        val usr = binding.registerUsername
         val load = binding.registerLoading
+        val dbUsr = usr.text.toString().trim().lowercase()
+        val ref2 = FirebaseDatabase.getInstance().getReference("/usernames/$uid")
 
-        val user = FirebaseUser(uid, mail.text.toString(),nick.text.toString())
+        val user = FirebaseUser(mail.text.toString(),usr.text.toString())
+        val username = FirebaseUsername(dbUsr)
 
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d("TAG", "Finally we saved the user to Firebase Database")
                 load.visibility = View.GONE
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
             }
             .addOnFailureListener {
                 Log.d("TAG", "Failed to set value to database: ${it.message}")
                 load.visibility = View.GONE
             }
+        ref2.setValue(username)
+            .addOnSuccessListener {
+                Log.d("TAG", "Finally we saved the username to Firebase Database")
+
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "Failed to set username to database: ${it.message}")
+
+            }
     }
 
 }
 
-class FirebaseUser(val uid: String,val email: String, val nickname: String)
+class FirebaseUser(val email: String, val username: String)
+class FirebaseUsername(val username: String)

@@ -4,6 +4,7 @@ import CurrentDayFragment
 import FavouriteProductsFragment
 import MyDietsFragment
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
@@ -20,7 +21,9 @@ import com.cesarferreira.tempo.Tempo
 import com.cesarferreira.tempo.days
 import com.cesarferreira.tempo.minus
 import com.cesarferreira.tempo.plus
+import com.example.dietapp.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -106,7 +109,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {
             // User chose the "Settings" item, show the app settings UI...
-            Toast.makeText(applicationContext,"ustawienia",Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(applicationContext, LoginActivity::class.java).apply{
+                flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            }
+            startActivity(intent)
             true
         }
 

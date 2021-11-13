@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -19,11 +20,14 @@ import com.example.dietapp.databinding.ActivityLoginBinding
 
 import com.example.dietapp.R
 import com.example.dietapp.RegisterActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private val mAuth = FirebaseAuth.getInstance()
+    private val LOG_DEBUG = "LOG_DEBUG"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,111 +42,66 @@ class LoginActivity : AppCompatActivity() {
         val forgot = binding.loginForgotPassword
         val register = binding.loginRegister
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
-
-        loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
-            val loginState = it ?: return@Observer
-
-            // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
-
-            if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
-            }
-            if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError)
-            }
-        })
-
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
-
-            loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
-            }
-            setResult(Activity.RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
-        })
-
-        username.afterTextChanged {
-            loginViewModel.loginDataChanged(
-                username.text.toString(),
-                password.text.toString()
-            )
+        login.setOnClickListener {
+            loginUser()
         }
+        forgot.setOnClickListener {
+            val intent = Intent(applicationContext, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
+        register.setOnClickListener {
+            val intent = Intent(applicationContext, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
-        password.apply {
-            afterTextChanged {
-                loginViewModel.loginDataChanged(
-                    username.text.toString(),
-                    password.text.toString()
-                )
-            }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
+    override fun onStart(){
+        super.onStart()
+        isCurrentUser()
+
+    }
+
+    private fun loginUser() {
+
+        val email = findViewById<EditText>(R.id.login_username).text?.trim().toString()
+        val password = findViewById<EditText>(R.id.login_password).text?.trim().toString()
+        val loading = binding.loginLoading
+
+
+        loading.visibility = View.VISIBLE
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener { authResult ->
+                if(authResult.user != null) {
+                    val intent = Intent(applicationContext, MainActivity::class.java).apply {
+                        flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    }
+                    loading.visibility = View.GONE
+                    startActivity(intent)
                 }
-                false
+                loading.visibility = View.GONE
             }
-
-            login.setOnClickListener {
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+            .addOnFailureListener { exception ->
+                val pass = findViewById<EditText>(R.id.login_password)
+                loading.visibility = View.GONE
+                pass.error = "Zły email lub hasło!"
+                pass.requestFocus()
+                Log.d(LOG_DEBUG, exception.message.toString())
             }
-            forgot.setOnClickListener {
-                val intent = Intent(applicationContext, ForgotPasswordActivity::class.java)
-                startActivity(intent)
-            }
-            register.setOnClickListener {
-                val intent = Intent(applicationContext, RegisterActivity::class.java)
-                startActivity(intent)
-            }
-        }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
+    private fun isCurrentUser(){
 
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
-    }
-
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
-    }
-}
-
-/**
- * Extension function to simplify setting an afterTextChanged action to EditText components.
- */
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
+        mAuth.currentUser?.let {auth ->
+            val intent = Intent(applicationContext, MainActivity::class.java).apply{
+                flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            }
+            startActivity(intent)
         }
 
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+    }
 
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-    })
+
+
+
 }

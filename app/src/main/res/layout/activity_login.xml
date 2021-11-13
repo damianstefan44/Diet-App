@@ -47,14 +47,14 @@
 
         <Button
             android:id="@+id/login_login"
+            style="@style/edit_text_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/edit_text_margin"
             android:background="@drawable/edit_text_style"
+            android:enabled="true"
+            android:text="Zaloguj"
             android:textColor="@color/diet_app_button_text"
             app:backgroundTint="@color/diet_app_main_color"
-            android:enabled="false"
-            android:text="@string/action_sign_in"
             app:layout_constraintVertical_bias="0.2" />
 
         <LinearLayout

@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/register_nickname"
+            android:id="@+id/register_username"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             style="@style/edit_text_margin"
@@ -32,7 +32,7 @@
             />
 
         <EditText
-            android:id="@+id/register_username"
+            android:id="@+id/register_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             style="@style/edit_text_margin"
