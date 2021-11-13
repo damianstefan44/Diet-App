@@ -9,12 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DietApp">
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"/>
+        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".AddDietActivity" />
+        <activity android:name=".EditDietActivity" />
+        <activity android:name=".MainActivity" />
         <activity
-            android:name=".MainActivity"
-            >
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity android:name=".RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

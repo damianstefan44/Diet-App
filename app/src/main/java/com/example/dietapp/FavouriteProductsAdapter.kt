@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class FavouriteProductsAdapter(private var names: List<String>, private var proteins: List<String>, private var fats: List<String>, private var carbs: List<String>, private var calories: List<String>):
+class FavouriteProductsAdapter(private var names: MutableList<String>, private var proteins: MutableList<String>, private var fats: MutableList<String>, private var carbs: MutableList<String>, private var calories: MutableList<String>):
     RecyclerView.Adapter<FavouriteProductsAdapter.ViewHolder>()
 {
 
@@ -19,13 +19,13 @@ class FavouriteProductsAdapter(private var names: List<String>, private var prot
         val favProdFats: TextView = itemView.findViewById(R.id.favouriteProductsFats)
         val favProdCarbs: TextView = itemView.findViewById(R.id.favouriteProductsCarbs)
         val favProdCalories: TextView = itemView.findViewById(R.id.favouriteProductsCalories)
+        private val favProdDelete: ImageView = itemView.findViewById(R.id.favouriteProductsDelete)
 
 
         init {
-            itemView.setOnClickListener{ v: View ->
+            favProdDelete.setOnClickListener { v: View ->
                 val position: Int = adapterPosition
-                Toast.makeText(itemView.context, "you clicked on item: ${position + 1}",Toast.LENGTH_SHORT).show()
-
+                removeItem(position)
             }
         }
 
@@ -50,6 +50,16 @@ class FavouriteProductsAdapter(private var names: List<String>, private var prot
     override fun getItemCount(): Int {
         return names.size
 
+    }
+
+    fun removeItem(position: Int) {
+        names.removeAt(position)
+        proteins.removeAt(position)
+        fats.removeAt(position)
+        carbs.removeAt(position)
+        calories.removeAt(position)
+
+        notifyDataSetChanged()
     }
 
 }

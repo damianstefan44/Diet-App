@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:layout_marginBottom="50dp">
+    >
 
     <include
         android:id="@+id/favouriteProductsLabel"
@@ -19,7 +19,6 @@
         android:id="@+id/myDietsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
         android:paddingBottom="65dp"
         android:paddingTop="25dp"
         android:clipToPadding="false"/>

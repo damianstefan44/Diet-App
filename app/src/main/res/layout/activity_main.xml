@@ -40,7 +40,7 @@
         <FrameLayout
             android:id="@+id/fragmentSelector"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -50,6 +50,7 @@
             >
 
         </FrameLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"

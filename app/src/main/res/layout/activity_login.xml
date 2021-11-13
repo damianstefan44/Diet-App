@@ -38,8 +38,8 @@
             android:layout_height="50dp"
             style="@style/edit_text_margin"
             android:background="@drawable/edit_text_style"
-            android:hint="@string/prompt_password"
-            android:imeActionLabel="@string/action_sign_in_short"
+            android:hint="Hasło"
+            android:imeActionLabel="Zaloguj"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
@@ -56,6 +56,36 @@
             android:enabled="false"
             android:text="@string/action_sign_in"
             app:layout_constraintVertical_bias="0.2" />
+
+        <LinearLayout
+            android:id="@+id/login_linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/login_forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Nie pamiętasz hasła?"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/login_register"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Rejestracja"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/login_loading"

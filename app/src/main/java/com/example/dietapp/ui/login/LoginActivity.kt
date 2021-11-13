@@ -13,10 +13,12 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import com.example.dietapp.ForgotPasswordActivity
 import com.example.dietapp.MainActivity
 import com.example.dietapp.databinding.ActivityLoginBinding
 
 import com.example.dietapp.R
+import com.example.dietapp.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -33,6 +35,8 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPassword
         val login = binding.loginLogin
         val loading = binding.loginLoading
+        val forgot = binding.loginForgotPassword
+        val register = binding.loginRegister
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -96,6 +100,14 @@ class LoginActivity : AppCompatActivity() {
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
+            }
+            forgot.setOnClickListener {
+                val intent = Intent(applicationContext, ForgotPasswordActivity::class.java)
+                startActivity(intent)
+            }
+            register.setOnClickListener {
+                val intent = Intent(applicationContext, RegisterActivity::class.java)
+                startActivity(intent)
             }
         }
     }
