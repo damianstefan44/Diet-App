@@ -78,6 +78,27 @@
             android:text="Zarejestruj"
             app:layout_constraintVertical_bias="0.2" />
 
+        <LinearLayout
+            android:id="@+id/register_linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/register_have_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:text="Masz już konto?"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
         <ProgressBar
             android:id="@+id/register_loading"
             android:layout_width="wrap_content"

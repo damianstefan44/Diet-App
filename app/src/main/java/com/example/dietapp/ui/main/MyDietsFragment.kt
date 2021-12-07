@@ -1,10 +1,11 @@
+package com.example.dietapp.ui.main
+
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dietapp.DietAdapter
+import com.example.dietapp.adapters.DietAdapter
 import com.example.dietapp.R
 
 

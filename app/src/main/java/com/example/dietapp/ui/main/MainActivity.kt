@@ -1,8 +1,5 @@
-package com.example.dietapp
+package com.example.dietapp.ui.main
 
-import CurrentDayFragment
-import FavouriteProductsFragment
-import MyDietsFragment
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -21,6 +17,8 @@ import com.cesarferreira.tempo.Tempo
 import com.cesarferreira.tempo.days
 import com.cesarferreira.tempo.minus
 import com.cesarferreira.tempo.plus
+import com.example.dietapp.R
+import com.example.dietapp.objects.Functions
 import com.example.dietapp.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -56,7 +54,8 @@ class MainActivity : AppCompatActivity() {
         var currentDate: Date = Tempo.now
         currDate.text = getTextViewDate(currentDate)
         Log.e("dzisiaj", currentDate.toString())
-        Functions.saveDate(this, currentDate.toString())
+        Log.e("dzisiaj", databaseDate(currentDate))
+        Functions.saveDate(this, Functions.databaseDate(currentDate))
 
 
         val curDay : View = bottomNav.findViewById(R.id.bottom_nav_current_day)
@@ -89,11 +88,11 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.bottom_nav_current_day->{selectFragment(currentDay)
+                R.id.bottom_nav_current_day ->{selectFragment(currentDay)
                     dateView.visibility = View.VISIBLE}
-                R.id.bottom_nav_my_diets->{selectFragment(myDiets)
+                R.id.bottom_nav_my_diets ->{selectFragment(myDiets)
                     dateView.visibility = View.GONE}
-                R.id.bottom_nav_favourite->{selectFragment(favourites)
+                R.id.bottom_nav_favourite ->{selectFragment(favourites)
                     dateView.visibility = View.GONE}
 
             }
@@ -153,9 +152,7 @@ class MainActivity : AppCompatActivity() {
             "Friday" -> "Pt"
             "Saturday" -> "Sb"
             "Sunday" -> "Nd"
-            else -> {
-                print("ERROR - Zły dzień tygodnia")
-            }
+            else -> ""
         }
         val properMonth = when (month) {
             "01" -> "sty"
@@ -175,7 +172,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        if(properDayOfTheWeek == ""){
+            return "$day $properMonth"
+        }
+
     return "$properDayOfTheWeek $day $properMonth"
+
+    }
+
+    private fun databaseDate(date: Date): String{
+
+        val day = DateFormat.format("dd", date) as String
+        val month = DateFormat.format("MM", date) as String
+        val year = DateFormat.format("yyyy", date) as String
+
+        return "$day-$month-$year"
 
     }
 

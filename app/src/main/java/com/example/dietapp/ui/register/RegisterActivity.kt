@@ -1,4 +1,4 @@
-package com.example.dietapp
+package com.example.dietapp.ui.register
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dietapp.databinding.ActivityRegisterBinding
+import com.example.dietapp.dataclasses.FirebaseUser
+import com.example.dietapp.dataclasses.FirebaseUsername
+import com.example.dietapp.ui.login.ForgotPasswordActivity
 import com.example.dietapp.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -30,10 +33,16 @@ class RegisterActivity : AppCompatActivity() {
         val username = binding.registerUsername
         val loading = binding.registerLoading
         val registerButton = binding.registerRegister
+        val haveAccount = binding.registerHaveAccount
 
 
         registerButton.setOnClickListener {
             registerUser()
+        }
+
+        haveAccount.setOnClickListener{
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -99,11 +108,12 @@ class RegisterActivity : AppCompatActivity() {
         val rootRef1 = FirebaseDatabase.getInstance().reference.child("usernames")
 
 
-        val query: Query = FirebaseDatabase.getInstance().reference.child("users").orderByChild("username").equalTo(username)
+        val usernameDuplicateQuery: Query = FirebaseDatabase.getInstance().reference.child("users").orderByChild("username").equalTo(username)
 
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
+        usernameDuplicateQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
+                    
                     mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener {
                             if (!it.isSuccessful) {
@@ -180,6 +190,3 @@ class RegisterActivity : AppCompatActivity() {
     }
 
 }
-
-class FirebaseUser(val email: String, val username: String)
-class FirebaseUsername(val username: String)

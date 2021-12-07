@@ -1,15 +1,12 @@
-package com.example.dietapp
+package com.example.dietapp.adapters
 
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dietapp.R
 
 class DietProductAdapter(private var names: MutableList<String>,private var weights: MutableList<String>, private var calories: MutableList<Int>,private var eaten: MutableList<Boolean>):
     RecyclerView.Adapter<DietProductAdapter.ViewHolder>()

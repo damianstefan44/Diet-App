@@ -1,13 +1,12 @@
-package com.example.dietapp
+package com.example.dietapp.adapters
 
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dietapp.R
 
 class DietAdapter(private var names: MutableList<String>, private var calories: MutableList<String>):
     RecyclerView.Adapter<DietAdapter.ViewHolder>()

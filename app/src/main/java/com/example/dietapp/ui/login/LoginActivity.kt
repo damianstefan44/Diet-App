@@ -1,25 +1,16 @@
 package com.example.dietapp.ui.login
 
-import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.Toast
-import com.example.dietapp.ForgotPasswordActivity
-import com.example.dietapp.MainActivity
+import com.example.dietapp.ui.main.MainActivity
 import com.example.dietapp.databinding.ActivityLoginBinding
 
 import com.example.dietapp.R
-import com.example.dietapp.RegisterActivity
+import com.example.dietapp.ui.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {

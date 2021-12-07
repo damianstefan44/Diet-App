@@ -1,4 +1,4 @@
-package com.example.dietapp
+package com.example.dietapp.dataclasses
 
 data class User (
     var email: String,

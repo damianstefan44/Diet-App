@@ -1,4 +1,4 @@
-package com.example.dietapp
+package com.example.dietapp.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,31 +6,33 @@ import android.view.View
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dietapp.R
+import com.example.dietapp.adapters.ProductAdapter
 
 class EditDietActivity : AppCompatActivity() {
 
     private var breakfastNameList = mutableListOf<String>()
-    private var breakfastWeightList = mutableListOf<String>()
+    private var breakfastWeightList = mutableListOf<Int>()
     private var breakfastCaloriesList = mutableListOf<Int>()
     private var breakfastEatenList = mutableListOf<Boolean>()
 
     private var secondBreakfastNameList = mutableListOf<String>()
-    private var secondBreakfastWeightList = mutableListOf<String>()
+    private var secondBreakfastWeightList = mutableListOf<Int>()
     private var secondBreakfastCaloriesList = mutableListOf<Int>()
     private var secondBreakfastEatenList = mutableListOf<Boolean>()
 
     private var lunchNameList = mutableListOf<String>()
-    private var lunchWeightList = mutableListOf<String>()
+    private var lunchWeightList = mutableListOf<Int>()
     private var lunchCaloriesList = mutableListOf<Int>()
     private var lunchEatenList = mutableListOf<Boolean>()
 
     private var snackNameList = mutableListOf<String>()
-    private var snackWeightList = mutableListOf<String>()
+    private var snackWeightList = mutableListOf<Int>()
     private var snackCaloriesList = mutableListOf<Int>()
     private var snackEatenList = mutableListOf<Boolean>()
 
     private var dinnerNameList = mutableListOf<String>()
-    private var dinnerWeightList = mutableListOf<String>()
+    private var dinnerWeightList = mutableListOf<Int>()
     private var dinnerCaloriesList = mutableListOf<Int>()
     private var dinnerEatenList = mutableListOf<Boolean>()
 

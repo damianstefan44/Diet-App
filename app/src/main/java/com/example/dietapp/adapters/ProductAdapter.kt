@@ -1,22 +1,19 @@
-package com.example.dietapp
+package com.example.dietapp.adapters
 
-import android.R.attr.button
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dietapp.R
 
 
-class ProductAdapter(private var names: MutableList<String>,private var weights: MutableList<String>, private var calories: MutableList<Int>,private var eaten: MutableList<Boolean>):
+class ProductAdapter(private var names: MutableList<String>,private var weights: MutableList<Int>, private var calories: MutableList<Int>,private var eaten: MutableList<Boolean>):
     RecyclerView.Adapter<ProductAdapter.ViewHolder>()
 {
 
@@ -56,7 +53,7 @@ class ProductAdapter(private var names: MutableList<String>,private var weights:
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.productName.text = names[position]
-        holder.productWeight.text = weights[position]
+        holder.productWeight.text = weights[position].toString() + " g"
         holder.productCalories.text = calories[position].toString() + " kcal"
         when (eaten[position]) {
             true -> {
