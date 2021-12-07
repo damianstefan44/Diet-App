@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.cesarferreira.tempo.Tempo
 import com.cesarferreira.tempo.days
 import com.cesarferreira.tempo.minus
@@ -23,6 +24,8 @@ import com.example.dietapp.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
+
+private val uid = FirebaseAuth.getInstance().uid ?: ""
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,14 +68,17 @@ class MainActivity : AppCompatActivity() {
 
         prevDate.setOnClickListener {
             currentDate -= 1.days
-            Functions.saveDate(this, currentDate.toString())
+            Functions.saveDate(this, Functions.databaseDate(currentDate))
             currDate.text = getTextViewDate(currentDate)
+            currentDay.refreshMeals()
         }
 
         nextDate.setOnClickListener {
             currentDate += 1.days
-            Functions.saveDate(this, currentDate.toString())
+            Functions.saveDate(this, Functions.databaseDate(currentDate))
             currDate.text = getTextViewDate(currentDate)
+            currentDay.refreshMeals()
+
 
         }
         currDate.setOnClickListener {
@@ -81,8 +87,9 @@ class MainActivity : AppCompatActivity() {
                 currentDate = Tempo.with(year,monthOfYear+1,dayOfMonth)
                 currDate.text = getTextViewDate(currentDate)
             }, year, month, day)
+            Functions.saveDate(this, Functions.databaseDate(currentDate))
             datePickerDialog.show()
-
+            currentDay.refreshMeals()
 
         }
 

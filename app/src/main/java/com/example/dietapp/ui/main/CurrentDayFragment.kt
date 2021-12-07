@@ -52,6 +52,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
     }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
@@ -83,6 +84,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
         dinner.adapter = ProductAdapter(dinnerNameList, dinnerWeightList, dinnerCaloriesList, dinnerEatenList)
         //dinner.isNestedScrollingEnabled = false
 
+        getDailyMeals(Functions.getDate(requireContext())!!,uid,breakfast,secondBreakfast,lunch,snack,dinner)
         getDailyMeals(Functions.getDate(requireContext())!!,uid,breakfast,secondBreakfast,lunch,snack,dinner)
 
     }
@@ -216,7 +218,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
 
     }
 
-    private fun getDailyMeals(date: String, uid: String,breakfast: RecyclerView, secondBreakfast: RecyclerView, lunch: RecyclerView, snack: RecyclerView, dinner: RecyclerView){
+    fun getDailyMeals(date: String, uid: String,breakfast: RecyclerView, secondBreakfast: RecyclerView, lunch: RecyclerView, snack: RecyclerView, dinner: RecyclerView){
 
         clearLists()
 
@@ -335,6 +337,26 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
                 println("The read failed: " + databaseError.code)
             }
         })
+        breakfast.adapter?.notifyDataSetChanged()
+        secondBreakfast.adapter?.notifyDataSetChanged()
+        lunch.adapter?.notifyDataSetChanged()
+        snack.adapter?.notifyDataSetChanged()
+        dinner.adapter?.notifyDataSetChanged()
+    }
+
+    fun refreshMeals(){
+
+        val breakfast: RecyclerView = requireView().findViewById<View>(R.id.breakfastRecyclerView) as RecyclerView
+        val secondBreakfast: RecyclerView = requireView().findViewById<View>(R.id.secondBreakfastRecyclerView) as RecyclerView
+        val lunch: RecyclerView = requireView().findViewById<View>(R.id.lunchRecyclerView) as RecyclerView
+        val snack: RecyclerView = requireView().findViewById<View>(R.id.snackRecyclerView) as RecyclerView
+        val dinner: RecyclerView = requireView().findViewById<View>(R.id.dinnerRecyclerView) as RecyclerView
+
+        getDailyMeals(Functions.getDate(requireContext())!!,uid,breakfast,secondBreakfast,lunch,snack,dinner)
+
+
+
+        println("tutaj")
 
     }
 
