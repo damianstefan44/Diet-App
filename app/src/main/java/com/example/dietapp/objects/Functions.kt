@@ -101,7 +101,18 @@ object Functions {
 
     }
 
+    fun getMealName(meal: String): String {
+        return when (meal) {
+            "breakfast" -> "Śniadanie"
+            "secondbreakfast" -> "Drugie śniadanie"
+            "lunch" -> "Obiad"
+            "snack" -> "Przekąska"
+            "dinner" -> "Kolacja"
+            else -> ""
+        }
 
+
+    }
 
 
 

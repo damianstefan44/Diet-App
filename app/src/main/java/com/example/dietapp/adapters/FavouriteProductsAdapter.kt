@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
 
-class FavouriteProductsAdapter(private var names: MutableList<String>, private var proteins: MutableList<String>, private var fats: MutableList<String>, private var carbs: MutableList<String>, private var calories: MutableList<String>):
+class FavouriteProductsAdapter(private var names: MutableList<String>, private var proteins: MutableList<Int>, private var fats: MutableList<Int>, private var carbs: MutableList<Int>, private var calories: MutableList<Int>):
     RecyclerView.Adapter<FavouriteProductsAdapter.ViewHolder>()
 {
 
@@ -39,10 +39,10 @@ class FavouriteProductsAdapter(private var names: MutableList<String>, private v
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.favProdName.text = names[position]
-        holder.favProdProteins.text = proteins[position]
-        holder.favProdFats.text = fats[position]
-        holder.favProdCarbs.text = carbs[position]
-        holder.favProdCalories.text = calories[position]
+        holder.favProdProteins.text = proteins[position].toString()
+        holder.favProdFats.text = fats[position].toString()
+        holder.favProdCarbs.text = carbs[position].toString()
+        holder.favProdCalories.text = calories[position].toString()
 
 
     }

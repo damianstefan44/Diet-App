@@ -1,7 +1,9 @@
 package com.example.dietapp.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +12,7 @@ import com.example.dietapp.*
 import com.example.dietapp.adapters.ProductAdapter
 import com.example.dietapp.dataclasses.FirebaseMealProduct
 import com.example.dietapp.objects.Functions
+import com.example.dietapp.ui.login.ForgotPasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -53,6 +56,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
         super.onCreate(savedInstanceState)
 
 
+
     }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
@@ -63,6 +67,45 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
         val lunch: RecyclerView = requireView().findViewById<View>(R.id.lunchRecyclerView) as RecyclerView
         val snack: RecyclerView = requireView().findViewById<View>(R.id.snackRecyclerView) as RecyclerView
         val dinner: RecyclerView = requireView().findViewById<View>(R.id.dinnerRecyclerView) as RecyclerView
+
+        val breakfastAdd: ImageView = requireView().findViewById<View>(R.id.breakfastAdd) as ImageView
+        val secondBreakfastAdd: ImageView = requireView().findViewById<View>(R.id.secondBreakfastAdd) as ImageView
+        val lunchAdd: ImageView = requireView().findViewById<View>(R.id.lunchAdd) as ImageView
+        val snackAdd: ImageView = requireView().findViewById<View>(R.id.snackAdd) as ImageView
+        val dinnerAdd: ImageView = requireView().findViewById<View>(R.id.dinnerAdd) as ImageView
+
+        breakfastAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddProductActivity::class.java)
+            val meal = "breakfast"
+            intent.putExtra("meal",meal)
+            startActivity(intent)
+        }
+        secondBreakfastAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddProductActivity::class.java)
+            val meal = "secondbreakfast"
+            intent.putExtra("meal",meal)
+            startActivity(intent)
+        }
+        lunchAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddProductActivity::class.java)
+            val meal = "lunch"
+            intent.putExtra("meal",meal)
+            startActivity(intent)
+        }
+        snackAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddProductActivity::class.java)
+            val meal = "snack"
+            intent.putExtra("meal",meal)
+            startActivity(intent)
+        }
+        dinnerAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddProductActivity::class.java)
+            val meal = "dinner"
+            intent.putExtra("meal",meal)
+            startActivity(intent)
+        }
+
+
 
         breakfast.layoutManager = LinearLayoutManager(activity?.applicationContext)
         breakfast.adapter = ProductAdapter(breakfastNameList, breakfastWeightList, breakfastCaloriesList, breakfastEatenList)
@@ -84,7 +127,6 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
         dinner.adapter = ProductAdapter(dinnerNameList, dinnerWeightList, dinnerCaloriesList, dinnerEatenList)
         //dinner.isNestedScrollingEnabled = false
 
-        getDailyMeals(Functions.getDate(requireContext())!!,uid,breakfast,secondBreakfast,lunch,snack,dinner)
         getDailyMeals(Functions.getDate(requireContext())!!,uid,breakfast,secondBreakfast,lunch,snack,dinner)
 
     }
@@ -224,11 +266,11 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
 
         println("/userdata/$uid/$date/breakfast")
         val database = FirebaseDatabase.getInstance()
-        val breakfastRef = database.getReference("/userdata/$uid/$date/breakfast")
-        val secondBreakfastRef = database.getReference("/userdata/$uid/$date/secondbreakfast")
-        val lunchRef = database.getReference("/userdata/$uid/$date/lunch")
-        val snackRef = database.getReference("/userdata/$uid/$date/snack")
-        val dinnerRef = database.getReference("/userdata/$uid/$date/dinner")
+        val breakfastRef = database.getReference("/userdata/$uid/$date/breakfast").orderByChild("timestamp")
+        val secondBreakfastRef = database.getReference("/userdata/$uid/$date/secondbreakfast").orderByChild("timestamp")
+        val lunchRef = database.getReference("/userdata/$uid/$date/lunch").orderByChild("timestamp")
+        val snackRef = database.getReference("/userdata/$uid/$date/snack").orderByChild("timestamp")
+        val dinnerRef = database.getReference("/userdata/$uid/$date/dinner").orderByChild("timestamp")
         val breakfastProductsList = arrayListOf<FirebaseMealProduct>()
         val secondBreakfastProductsList = arrayListOf<FirebaseMealProduct>()
         val lunchProductsList = arrayListOf<FirebaseMealProduct>()
@@ -243,7 +285,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
                         val productName = productSnapshot.key
                         val product = productSnapshot.getValue(FirebaseMealProduct::class.java)
                         breakfastProductsList.add(product!!)
-                        addToBreakfastList(productName.toString(),product.weight,product.calories,product.eaten)
+                        addToBreakfastList(product.name,product.weight,product.calories,product.eaten)
                         println("w zapytaniu " + breakfastNameList.size)
                         breakfast.adapter = ProductAdapter(breakfastNameList, breakfastWeightList, breakfastCaloriesList, breakfastEatenList)
 
@@ -265,7 +307,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
                         val productName = productSnapshot.key
                         val product = productSnapshot.getValue(FirebaseMealProduct::class.java)
                         secondBreakfastProductsList.add(product!!)
-                        addToSecondBreakfastList(productName.toString(),product.weight,product.calories,product.eaten)
+                        addToSecondBreakfastList(product.name,product.weight,product.calories,product.eaten)
                         secondBreakfast.adapter = ProductAdapter(secondBreakfastNameList, secondBreakfastWeightList, secondBreakfastCaloriesList, secondBreakfastEatenList)
 
 
@@ -286,7 +328,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
                         val productName = productSnapshot.key
                         val product = productSnapshot.getValue(FirebaseMealProduct::class.java)
                         lunchProductsList.add(product!!)
-                        addToLunchList(productName.toString(),product.weight,product.calories,product.eaten)
+                        addToLunchList(product.name,product.weight,product.calories,product.eaten)
                         lunch.adapter = ProductAdapter(lunchNameList, lunchWeightList, lunchCaloriesList, lunchEatenList)
 
                     }
@@ -306,7 +348,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
                         val productName = productSnapshot.key
                         val product = productSnapshot.getValue(FirebaseMealProduct::class.java)
                         snackProductsList.add(product!!)
-                        addToSnackList(productName.toString(),product.weight,product.calories,product.eaten)
+                        addToSnackList(product.name,product.weight,product.calories,product.eaten)
                         snack.adapter = ProductAdapter(snackNameList, snackWeightList, snackCaloriesList, snackEatenList)
 
                     }
@@ -326,7 +368,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
                         val productName = productSnapshot.key
                         val product = productSnapshot.getValue(FirebaseMealProduct::class.java)
                         dinnerProductsList.add(product!!)
-                        addToDinnerList(productName.toString(),product.weight,product.calories,product.eaten)
+                        addToDinnerList(product.name,product.weight,product.calories,product.eaten)
                         dinner.adapter = ProductAdapter(dinnerNameList, dinnerWeightList, dinnerCaloriesList, dinnerEatenList)
 
                     }

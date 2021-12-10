@@ -16,10 +16,10 @@ class FavouriteProductsFragment:Fragment(R.layout.fragment_favourite_products) {
     private var adapter: RecyclerView.Adapter<DietAdapter.ViewHolder>? = null
 
     private var nameList = mutableListOf<String>()
-    private var proteinsList = mutableListOf<String>()
-    private var fatsList = mutableListOf<String>()
-    private var carbsList = mutableListOf<String>()
-    private var caloriesList = mutableListOf<String>()
+    private var proteinsList = mutableListOf<Int>()
+    private var fatsList = mutableListOf<Int>()
+    private var carbsList = mutableListOf<Int>()
+    private var caloriesList = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class FavouriteProductsFragment:Fragment(R.layout.fragment_favourite_products) {
         }
     }
 
-    private fun addToList(name: String, proteins: String, fats: String, carbs: String, calories: String){
+    private fun addToList(name: String, proteins: Int, fats: Int, carbs: Int, calories: Int){
         nameList.add(name)
         proteinsList.add(proteins)
         fatsList.add(fats)
@@ -55,7 +55,7 @@ class FavouriteProductsFragment:Fragment(R.layout.fragment_favourite_products) {
 
     private fun postToList(){
         for(i in 1..10){
-            addToList("name $i", "50 g", "79 g", "129  g", "2399 kcal")
+            addToList("name $i", 50, 79, 129, 2399)
         }
 
     }

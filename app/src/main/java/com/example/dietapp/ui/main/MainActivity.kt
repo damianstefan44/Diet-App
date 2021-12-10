@@ -20,6 +20,7 @@ import com.cesarferreira.tempo.minus
 import com.cesarferreira.tempo.plus
 import com.example.dietapp.R
 import com.example.dietapp.objects.Functions
+import com.example.dietapp.ui.login.ForgotPasswordActivity
 import com.example.dietapp.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -113,13 +114,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_settings -> {
-            // User chose the "Settings" item, show the app settings UI...
+        R.id.action_logout -> {
+            
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(applicationContext, LoginActivity::class.java).apply{
                 flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             startActivity(intent)
+
+
             true
         }
 
