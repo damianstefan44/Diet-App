@@ -10,6 +10,7 @@ import com.example.dietapp.ui.main.MainActivity
 import com.example.dietapp.databinding.ActivityLoginBinding
 
 import com.example.dietapp.R
+import com.example.dietapp.objects.Functions
 import com.example.dietapp.ui.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -25,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Functions.saveFragment(applicationContext,"cur")
 
         val username = binding.loginUsername
         val password = binding.loginPassword

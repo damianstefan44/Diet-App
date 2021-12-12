@@ -13,33 +13,35 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.cesarferreira.tempo.Tempo
 import com.cesarferreira.tempo.days
 import com.cesarferreira.tempo.minus
 import com.cesarferreira.tempo.plus
 import com.example.dietapp.R
 import com.example.dietapp.objects.Functions
-import com.example.dietapp.ui.login.ForgotPasswordActivity
 import com.example.dietapp.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
 private val uid = FirebaseAuth.getInstance().uid ?: ""
+var fragment: String = ""
 
 class MainActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayShowTitleEnabled(false);
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         //supportActionBar?.hide()
 
         //val toolbar:Toolbar = findViewById(R.id.toolbar)
         //setSupportActionBar(toolbar)
+
 
         val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav)
         val myDiets = MyDietsFragment()
@@ -61,24 +63,31 @@ class MainActivity : AppCompatActivity() {
         Log.e("dzisiaj", databaseDate(currentDate))
         Functions.saveDate(this, Functions.databaseDate(currentDate))
 
-
         val curDay : View = bottomNav.findViewById(R.id.bottom_nav_current_day)
-        curDay.performClick()
+        val favProds : View = bottomNav.findViewById(R.id.bottom_nav_favourite)
+        val diets : View = bottomNav.findViewById(R.id.bottom_nav_my_diets)
 
-        selectFragment(currentDay)
+        when(Functions.getFragment(applicationContext)){
+            "fav" ->{favProds.performClick()
+                selectFragment(favourites)}
+            "diets" ->{diets.performClick()
+                selectFragment(myDiets)}
+            "cur" ->{curDay.performClick()
+                selectFragment(currentDay)}
+        }
 
         prevDate.setOnClickListener {
             currentDate -= 1.days
             Functions.saveDate(this, Functions.databaseDate(currentDate))
             currDate.text = getTextViewDate(currentDate)
-            currentDay.refreshMeals()
+            currentDay.refreshMeals(applicationContext)
         }
 
         nextDate.setOnClickListener {
             currentDate += 1.days
             Functions.saveDate(this, Functions.databaseDate(currentDate))
             currDate.text = getTextViewDate(currentDate)
-            currentDay.refreshMeals()
+            currentDay.refreshMeals(applicationContext)
 
 
         }
@@ -90,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             }, year, month, day)
             Functions.saveDate(this, Functions.databaseDate(currentDate))
             datePickerDialog.show()
-            currentDay.refreshMeals()
+            currentDay.refreshMeals(applicationContext)
 
         }
 
@@ -107,6 +116,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+    
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
@@ -137,7 +148,7 @@ class MainActivity : AppCompatActivity() {
     private fun selectFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragmentSelector,fragment)
-            commit()
+            commitNow()
         }
 
     private fun getTextViewDate(date: Date): String{

@@ -8,8 +8,9 @@ import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
-import com.example.dietapp.adapters.LimitedSearchedProductAdapter
+import com.example.dietapp.adapters.LimitedSearchedFavouriteProductEditAdapter
 import com.example.dietapp.adapters.SearchedProductAdapter
+import com.example.dietapp.dataclasses.FavouriteEditProduct
 import com.example.dietapp.dataclasses.FirebaseProduct
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -18,10 +19,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class SearchDatabaseProductsActivity : AppCompatActivity() {
+class SearchOwnProductsEditActivity : AppCompatActivity() {
 
     var meal: String = ""
-    var productAdapter: LimitedSearchedProductAdapter? = null
+    var id: String = ""
+    var productAdapter: LimitedSearchedFavouriteProductEditAdapter? = null
     var recycler: RecyclerView? = null
     var searchEditText: EditText? = null
     private var nameList = mutableListOf<String>()
@@ -29,26 +31,26 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
     private var fatsList = mutableListOf<Int>()
     private var carbsList = mutableListOf<Int>()
     private var caloriesList = mutableListOf<Int>()
-    private var productList = mutableListOf<FirebaseProduct>()
+    private var idsList = mutableListOf<String>()
+    private var productList = mutableListOf<FavouriteEditProduct>()
+    var uid = FirebaseAuth.getInstance().uid ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_database_products)
+        setContentView(R.layout.activity_search_own_products_edit)
 
         val bundle: Bundle? = intent.extras
         if (bundle != null){
             meal = bundle.getString("meal").toString()
+            id = bundle.getString("id").toString()
         }
 
-        val recycler = findViewById<RecyclerView>(R.id.search_database_products_recycler)
-        val searchEditText = findViewById<EditText>(R.id.search_database_products_search)
-
-
+        val recycler = findViewById<RecyclerView>(R.id.search_own_products_edit_recycler)
+        val searchEditText = findViewById<EditText>(R.id.search_own_products_edit_search)
         retrieveProducts(searchEditText)
 
         recycler.setHasFixedSize(true)
         recycler.layoutManager = LinearLayoutManager(applicationContext)
-
 
         searchEditText.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -67,12 +69,13 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
 
     }
 
-    private fun addToList(name: String, proteins: Int, fats: Int, carbs: Int, calories: Int){
+    private fun addToList(name: String, proteins: Int, fats: Int, carbs: Int, calories: Int, id: String){
         nameList.add(name)
         proteinsList.add(proteins)
         fatsList.add(fats)
         carbsList.add(carbs)
         caloriesList.add(calories)
+        idsList.add(id)
     }
 
     private fun clearList(){
@@ -81,12 +84,13 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
         fatsList.clear()
         carbsList.clear()
         caloriesList.clear()
+        idsList.clear()
     }
 
     private fun retrieveProducts(searchText: EditText) {
 
         val database = FirebaseDatabase.getInstance()
-        val productsRef = database.getReference("/products")
+        val productsRef = database.getReference("/userfavourites/$uid")
 
         productsRef.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -95,13 +99,13 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
                     if(searchText.text.equals("")){
                         for(productSnapshot in dataSnapshot.children){
                             val productName = productSnapshot.key
-                            val product = productSnapshot.getValue(FirebaseProduct::class.java)
+                            val product = productSnapshot.getValue(FavouriteEditProduct::class.java)
                             productList.add(product!!)
-                            addToList(product.name,product.proteins,product.fats,product.carbs,product.calories)
+                            addToList(product.name,product.proteins,product.fats,product.carbs,product.calories, product.id)
 
 
                         }
-                        productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                        productAdapter = LimitedSearchedFavouriteProductEditAdapter(applicationContext, meal, id, nameList, proteinsList, fatsList, carbsList, caloriesList)
                         recycler!!.adapter = productAdapter
 
                     }
@@ -118,8 +122,9 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
 
     private fun searchForProducts(str: String, recycler: RecyclerView){
 
+        var uid = FirebaseAuth.getInstance().uid ?: ""
         val database = FirebaseDatabase.getInstance()
-        val productsQuery = database.reference.child("products").orderByChild("name").startAt(str).endAt(str + "\uf8ff")
+        val productsQuery = database.reference.child("/userfavourites/$uid").orderByChild("name").startAt(str).endAt(str + "\uf8ff")
 
         productsQuery.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -127,12 +132,12 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
                 if(dataSnapshot.exists()){
                     for(productSnapshot in dataSnapshot.children){
                         val productName = productSnapshot.key
-                        val product = productSnapshot.getValue(FirebaseProduct::class.java)
+                        val product = productSnapshot.getValue(FavouriteEditProduct::class.java)
                         productList.add(product!!)
-                        addToList(product.name,product.proteins,product.fats,product.carbs,product.calories)
+                        addToList(product.name,product.proteins,product.fats,product.carbs,product.calories, product.id)
 
                     }
-                    productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                    productAdapter = LimitedSearchedFavouriteProductEditAdapter(applicationContext, meal, id, nameList, proteinsList, fatsList, carbsList, caloriesList)
                     recycler.adapter = productAdapter
                 }
             }

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
 
-class DietAdapter(private var names: MutableList<String>, private var calories: MutableList<String>):
+class DietAdapter(private var names: MutableList<String>, private var calories: MutableList<Int>):
     RecyclerView.Adapter<DietAdapter.ViewHolder>()
 {
 
@@ -36,7 +36,7 @@ class DietAdapter(private var names: MutableList<String>, private var calories: 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.dietName.text = names[position]
-        holder.dietCalories.text = calories[position]
+        holder.dietCalories.text = calories[position].toString()
 
 
     }

@@ -30,6 +30,28 @@ object Functions {
         return date
     }
 
+    fun saveFragment(context: Context, fragment: String) {
+        val sharedPrefsKey = context.getString(R.string.shared_preferences)
+        val fragmentKey: String = context.getString(R.string.fragment)
+
+        val sharedPreferences = context.getSharedPreferences(sharedPrefsKey, Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString(fragmentKey, fragment)
+            apply()
+        }
+    }
+
+    fun getFragment(context: Context): String? {
+        val sharedPrefsKey = context.getString(R.string.shared_preferences)
+        val fragmentKey: String = context.getString(R.string.fragment)
+        val sharedPreferences = context.getSharedPreferences(sharedPrefsKey, Context.MODE_PRIVATE)
+        val frag = sharedPreferences.getString(fragmentKey, "error")
+        if (frag.equals("error")) {
+            return null
+        }
+        return frag
+    }
+
 
     fun deleteDate(context: Context) {
         val sharedPrefsKey = context.getString(R.string.shared_preferences)

@@ -8,49 +8,48 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.dietapp.R
+import com.example.dietapp.dataclasses.FavouriteProduct
+import com.example.dietapp.dataclasses.FirebaseEditProduct
 import com.example.dietapp.dataclasses.Product
 import com.example.dietapp.objects.Functions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 
-class SubmitProductActivity : AppCompatActivity() {
+class SubmitFavouriteProductEditActivity : AppCompatActivity() {
 
     var meal: String = ""
+    var id: String = ""
     var name: String = ""
     var proteins: Int = 0
     var fats: Int = 0
     var carbs: Int = 0
     var calories: Int = 0
     val uid = FirebaseAuth.getInstance().uid ?: ""
-    var date: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_submit_product)
+        setContentView(R.layout.activity_submit_favourite_product_edit)
 
         val bundle: Bundle? = intent.extras
         if (bundle != null){
+            meal = bundle.getString("meal").toString()
+            id = bundle.getString("id").toString()
             name = bundle.getString("name").toString()
             proteins = bundle.getInt("proteins")
             fats = bundle.getInt("fats")
             carbs = bundle.getInt("carbs")
             calories = bundle.getInt("calories")
-            meal = bundle.getString("meal").toString()
         }
 
-        val subName: TextView = findViewById(R.id.submit_product_name)
-        val subProteins: TextView = findViewById(R.id.submit_product_proteins)
-        val subFats: TextView = findViewById(R.id.submit_product_fats)
-        val subCarbs: TextView = findViewById(R.id.submit_product_carbs)
-        val subCalories: TextView = findViewById(R.id.submit_product_calories)
-        val subMeal: TextView = findViewById(R.id.submit_product_meal)
-        val subWeight: EditText = findViewById(R.id.submit_product_weight)
-        val subDate: TextView = findViewById(R.id.submit_product_date)
-        val subAdd: Button = findViewById(R.id.submit_product_add)
-
-        date = Functions.getDate(applicationContext).toString()
+        val subName: TextView = findViewById(R.id.submit_favourite_product_edit_name)
+        val subProteins: TextView = findViewById(R.id.submit_favourite_product_edit_proteins)
+        val subFats: TextView = findViewById(R.id.submit_favourite_product_edit_fats)
+        val subCarbs: TextView = findViewById(R.id.submit_favourite_product_edit_carbs)
+        val subCalories: TextView = findViewById(R.id.submit_favourite_product_edit_calories)
+        val subWeight: EditText = findViewById(R.id.submit_favourite_product_edit_weight)
+        val subAdd: Button = findViewById(R.id.submit_favourite_product_edit_add)
 
 
         subName.text = "Nazwa: $name"
@@ -58,8 +57,6 @@ class SubmitProductActivity : AppCompatActivity() {
         subFats.text = "Tłuszcze: " + fats.toString() + "g"
         subCarbs.text = "Węglowodany: " + carbs.toString() + "g"
         subCalories.text = "Kalorie: " + calories.toString() + "kcal"
-        subMeal.text = "Posiłek: " + Functions.getMealName(meal)
-        subDate.text = "Data: $date"
 
         subAdd.setOnClickListener {
             if(!subWeight.text.isNullOrEmpty()){
@@ -78,22 +75,22 @@ class SubmitProductActivity : AppCompatActivity() {
     private fun addProductToMeal(weight: Int) {
 
         // TU DODANIE DO BAZY
-        date = Functions.getDate(applicationContext).toString()
         val database = FirebaseDatabase.getInstance()
-        val mealRef = database.getReference("/userdata/$uid/$date/$meal")
-        val productId = mealRef.push().key
-        val product = Product(productId.toString(), name,false, calories, carbs, fats, proteins, weight,
+        val favRef = database.getReference("/userplans/$uid/$id/$meal")
+        val productId = favRef.push().key
+        val product = FirebaseEditProduct(productId.toString(), name, calories, carbs, fats, proteins, weight,
             ServerValue.TIMESTAMP)
 
-        mealRef.child(productId!!).setValue(product).addOnCompleteListener {
+        favRef.child(productId!!).setValue(product).addOnCompleteListener {
 
             println("udalo sieeeeee")
         }
 
-
-        val intent = Intent(applicationContext, MainActivity::class.java).apply {
+        Functions.saveFragment(applicationContext,"diets")
+        val intent = Intent(applicationContext, EditDietActivity::class.java).apply {
             flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
+        intent.putExtra("id",id)
         startActivity(intent)
 
     }

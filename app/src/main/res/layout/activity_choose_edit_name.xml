@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/submit_product_edit_container"
+    android:background="@color/diet_app_background_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.ChooseEditNameActivity">
+
+    <LinearLayout
+        android:id="@+id/choose_edit_name_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <EditText
+            android:id="@+id/choose_edit_name_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            style="@style/edit_text_margin"
+            android:background="@drawable/edit_text_style"
+            android:hint="Nazwa"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:selectAllOnFocus="true"
+            />
+
+        <Button
+            android:id="@+id/choose_edit_name_add"
+            style="@style/edit_text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_style"
+            android:enabled="true"
+            android:text="Dodaj"
+            android:textColor="@color/diet_app_button_text"
+            app:backgroundTint="@color/diet_app_main_color"
+            app:layout_constraintVertical_bias="0.2" />
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

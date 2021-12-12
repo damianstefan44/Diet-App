@@ -8,6 +8,7 @@ import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
+import com.example.dietapp.adapters.LimitedSearchedFavouriteProductAdapter
 import com.example.dietapp.adapters.LimitedSearchedProductAdapter
 import com.example.dietapp.adapters.SearchedProductAdapter
 import com.example.dietapp.dataclasses.FirebaseProduct
@@ -18,10 +19,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class SearchDatabaseProductsActivity : AppCompatActivity() {
+class SearchDatabaseFavouriteProductsActivity : AppCompatActivity() {
 
     var meal: String = ""
-    var productAdapter: LimitedSearchedProductAdapter? = null
+    var productAdapter: LimitedSearchedFavouriteProductAdapter? = null
     var recycler: RecyclerView? = null
     var searchEditText: EditText? = null
     private var nameList = mutableListOf<String>()
@@ -33,15 +34,15 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_database_products)
+        setContentView(R.layout.activity_search_database_favourite_products)
 
         val bundle: Bundle? = intent.extras
         if (bundle != null){
             meal = bundle.getString("meal").toString()
         }
 
-        val recycler = findViewById<RecyclerView>(R.id.search_database_products_recycler)
-        val searchEditText = findViewById<EditText>(R.id.search_database_products_search)
+        val recycler = findViewById<RecyclerView>(R.id.search_database_favourite_products_recycler)
+        val searchEditText = findViewById<EditText>(R.id.search_database_favourite_products_search)
 
 
         retrieveProducts(searchEditText)
@@ -101,7 +102,7 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
 
 
                         }
-                        productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                        productAdapter = LimitedSearchedFavouriteProductAdapter(applicationContext, nameList, proteinsList, fatsList, carbsList, caloriesList)
                         recycler!!.adapter = productAdapter
 
                     }
@@ -132,7 +133,7 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
                         addToList(product.name,product.proteins,product.fats,product.carbs,product.calories)
 
                     }
-                    productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                    productAdapter = LimitedSearchedFavouriteProductAdapter(applicationContext, nameList, proteinsList, fatsList, carbsList, caloriesList)
                     recycler.adapter = productAdapter
                 }
             }

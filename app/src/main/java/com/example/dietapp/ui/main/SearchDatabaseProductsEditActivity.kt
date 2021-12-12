@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
 import com.example.dietapp.adapters.LimitedSearchedProductAdapter
+import com.example.dietapp.adapters.LimitedSearchedProductEditAdapter
 import com.example.dietapp.adapters.SearchedProductAdapter
 import com.example.dietapp.dataclasses.FirebaseProduct
 import com.google.firebase.auth.FirebaseAuth
@@ -18,10 +19,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class SearchDatabaseProductsActivity : AppCompatActivity() {
+class SearchDatabaseProductsEditActivity : AppCompatActivity() {
 
     var meal: String = ""
-    var productAdapter: LimitedSearchedProductAdapter? = null
+    var id: String = ""
+    var productAdapter: LimitedSearchedProductEditAdapter? = null
     var recycler: RecyclerView? = null
     var searchEditText: EditText? = null
     private var nameList = mutableListOf<String>()
@@ -33,15 +35,16 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_database_products)
+        setContentView(R.layout.activity_search_database_products_edit)
 
         val bundle: Bundle? = intent.extras
         if (bundle != null){
             meal = bundle.getString("meal").toString()
+            id = bundle.getString("id").toString()
         }
 
-        val recycler = findViewById<RecyclerView>(R.id.search_database_products_recycler)
-        val searchEditText = findViewById<EditText>(R.id.search_database_products_search)
+        val recycler = findViewById<RecyclerView>(R.id.search_database_products_edit_recycler)
+        val searchEditText = findViewById<EditText>(R.id.search_database_products_edit_search)
 
 
         retrieveProducts(searchEditText)
@@ -101,7 +104,7 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
 
 
                         }
-                        productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                        productAdapter = LimitedSearchedProductEditAdapter(applicationContext, meal, id, nameList, proteinsList, fatsList, carbsList, caloriesList)
                         recycler!!.adapter = productAdapter
 
                     }
@@ -132,7 +135,7 @@ class SearchDatabaseProductsActivity : AppCompatActivity() {
                         addToList(product.name,product.proteins,product.fats,product.carbs,product.calories)
 
                     }
-                    productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                    productAdapter = LimitedSearchedProductEditAdapter(applicationContext, meal, id, nameList, proteinsList, fatsList, carbsList, caloriesList)
                     recycler.adapter = productAdapter
                 }
             }

@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import com.example.dietapp.R
+import com.example.dietapp.databinding.ActivityAddOwnFavouriteProductsBinding
 import com.example.dietapp.databinding.ActivityAddOwnProductsBinding
 import com.example.dietapp.databinding.ActivityRegisterBinding
+import com.example.dietapp.dataclasses.FavouriteProduct
 import com.example.dietapp.dataclasses.Product
 import com.example.dietapp.objects.Functions
 import com.example.dietapp.ui.login.LoginActivity
@@ -14,16 +16,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 
-class AddOwnProductsActivity : AppCompatActivity() {
+class AddOwnFavouriteProductsActivity : AppCompatActivity() {
 
     var meal: String = ""
-    private lateinit var binding: ActivityAddOwnProductsBinding
+    private lateinit var binding: ActivityAddOwnFavouriteProductsBinding
     val uid = FirebaseAuth.getInstance().uid ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityAddOwnProductsBinding.inflate(layoutInflater)
+        binding = ActivityAddOwnFavouriteProductsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val bundle: Bundle? = intent.extras
@@ -31,13 +33,12 @@ class AddOwnProductsActivity : AppCompatActivity() {
             meal = bundle.getString("meal").toString()
         }
 
-        val name = binding.addOwnProductName
-        val calories = binding.addOwnProductCalories
-        val carbs = binding.addOwnProductCarbs
-        val fats = binding.addOwnProductFats
-        val proteins = binding.addOwnProductProteins
-        val weight = binding.addOwnProductWeight
-        val addButton = binding.addOwnProductAdd
+        val name = binding.addOwnFavouriteProductName
+        val calories = binding.addOwnFavouriteProductCalories
+        val carbs = binding.addOwnFavouriteProductCarbs
+        val fats = binding.addOwnFavouriteProductFats
+        val proteins = binding.addOwnFavouriteProductProteins
+        val addButton = binding.addOwnFavouriteProductAdd
 
 
         addButton.setOnClickListener {
@@ -49,13 +50,12 @@ class AddOwnProductsActivity : AppCompatActivity() {
 
     private fun addOwnProduct() {
 
-        val name = binding.addOwnProductName
-        val nameText = binding.addOwnProductName.text.toString().trim()
-        val calories = binding.addOwnProductCalories
-        val carbs = binding.addOwnProductCarbs
-        val fats = binding.addOwnProductFats
-        val proteins = binding.addOwnProductProteins
-        val weight = binding.addOwnProductWeight
+        val name = binding.addOwnFavouriteProductName
+        val nameText = binding.addOwnFavouriteProductName.text.toString().trim()
+        val calories = binding.addOwnFavouriteProductCalories
+        val carbs = binding.addOwnFavouriteProductCarbs
+        val fats = binding.addOwnFavouriteProductFats
+        val proteins = binding.addOwnFavouriteProductProteins
 
         if (nameText.isNullOrEmpty()) {
             name.error = "Nazwa jest wymagana!"
@@ -102,22 +102,12 @@ class AddOwnProductsActivity : AppCompatActivity() {
             proteins.requestFocus()
             return
         }
-        if (weight.text.trim().isNullOrEmpty()) {
-            weight.error = "Waga jest wymagana!"
-            weight.requestFocus()
-            return
-        }
-        if (weight.text.toString().toInt() <= 0) {
-            weight.error = "Waga musi być dodatnia!"
-            weight.requestFocus()
-            return
-        }
 
         val date = Functions.getDate(applicationContext).toString()
         val database = FirebaseDatabase.getInstance()
-        val mealRef = database.getReference("/userdata/$uid/$date/$meal")
+        val mealRef = database.getReference("/userfavourites/$uid")
         val productId = mealRef.push().key
-        val product = Product(productId.toString(), name.text.toString(),false, calories.text.toString().toInt(), carbs.text.toString().toInt(), fats.text.toString().toInt(), proteins.text.toString().toInt(), weight.text.toString().toInt(),
+        val product = FavouriteProduct(productId.toString(), name.text.toString(), calories.text.toString().toInt(), carbs.text.toString().toInt(), fats.text.toString().toInt(), proteins.text.toString().toInt(),
             ServerValue.TIMESTAMP)
 
         mealRef.child(productId!!).setValue(product).addOnCompleteListener {
@@ -126,7 +116,9 @@ class AddOwnProductsActivity : AppCompatActivity() {
         }
 
 
-        val intent = Intent(applicationContext, MainActivity::class.java).apply {
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.putExtra("fragment","fav")
+        intent.apply {
             flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
         startActivity(intent)

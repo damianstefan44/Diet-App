@@ -369,8 +369,8 @@
             <Button
                 android:id="@+id/edit_save_button"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="Zapisz"
+                android:layout_height="50dp"
+                android:text="Wróć"
                 android:textColor="@color/white"
                 android:layout_margin="5dp"
                 android:backgroundTint="@color/diet_app_main_color_dark"

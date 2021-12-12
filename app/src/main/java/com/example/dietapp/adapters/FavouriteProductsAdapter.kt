@@ -1,5 +1,6 @@
 package com.example.dietapp.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,10 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
+import com.example.dietapp.objects.Functions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
-class FavouriteProductsAdapter(private var names: MutableList<String>, private var proteins: MutableList<Int>, private var fats: MutableList<Int>, private var carbs: MutableList<Int>, private var calories: MutableList<Int>):
+class FavouriteProductsAdapter(private var names: MutableList<String>, private var proteins: MutableList<Int>, private var fats: MutableList<Int>, private var carbs: MutableList<Int>, private var calories: MutableList<Int>, private var ids: MutableList<String>):
     RecyclerView.Adapter<FavouriteProductsAdapter.ViewHolder>()
 {
+
+    private val uid = FirebaseAuth.getInstance().uid ?: ""
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
@@ -53,11 +59,19 @@ class FavouriteProductsAdapter(private var names: MutableList<String>, private v
     }
 
     fun removeItem(position: Int) {
+
+        val database = FirebaseDatabase.getInstance()
+        val favRef = database.getReference("/userfavourites/$uid")
+        val deleteId = ids[position]
+
         names.removeAt(position)
         proteins.removeAt(position)
         fats.removeAt(position)
         carbs.removeAt(position)
         calories.removeAt(position)
+        ids.removeAt(position)
+
+        favRef.child(deleteId).setValue(null)
 
         notifyDataSetChanged()
     }

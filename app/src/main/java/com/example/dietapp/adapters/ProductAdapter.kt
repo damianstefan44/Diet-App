@@ -1,5 +1,6 @@
 package com.example.dietapp.adapters
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -11,11 +12,20 @@ import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
+import com.example.dietapp.dataclasses.Product
+import com.example.dietapp.objects.Functions
+import com.example.dietapp.ui.main.CurrentDayFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 
 
-class ProductAdapter(private var names: MutableList<String>,private var weights: MutableList<Int>, private var calories: MutableList<Int>,private var eaten: MutableList<Boolean>):
+class ProductAdapter(context: Context, private var meal: String, private var ids: MutableList<String>, private var names: MutableList<String>, private var weights: MutableList<Int>, private var calories: MutableList<Int>, private var eaten: MutableList<Boolean>):
     RecyclerView.Adapter<ProductAdapter.ViewHolder>()
+
 {
+    val context = context
+    val uid = FirebaseAuth.getInstance().uid ?: ""
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -27,6 +37,7 @@ class ProductAdapter(private var names: MutableList<String>,private var weights:
 
         init {
             productDelete.setOnClickListener { v: View ->
+                println(ids)
                 val position: Int = adapterPosition
                 removeItem(position)
             }
@@ -82,17 +93,37 @@ class ProductAdapter(private var names: MutableList<String>,private var weights:
     }
 
     fun removeItem(position: Int) {
+
+        val date = Functions.getDate(context).toString()
+        val database = FirebaseDatabase.getInstance()
+        val mealRef = database.getReference("/userdata/$uid/$date/$meal")
+
+        val deleteId = ids[position]
+
+        ids.removeAt(position)
         names.removeAt(position)
         weights.removeAt(position)
         calories.removeAt(position)
+        eaten.removeAt(position)
+
+        mealRef.child(deleteId).setValue(null)
 
         notifyDataSetChanged()
     }
 
     fun changeButton(position: Int) {
-        eaten[position] = when (eaten[position]) {
-            true -> false
-            false -> true
+
+        val date = Functions.getDate(context).toString()
+        val database = FirebaseDatabase.getInstance()
+        val id = ids[position]
+        val mealRef = database.getReference("/userdata/$uid/$date/$meal/$id")
+
+        if(eaten[position]) {
+
+            mealRef.child("eaten").setValue(false)
+        }
+        else{
+            mealRef.child("eaten").setValue(true)
         }
         notifyDataSetChanged()
     }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.dietapp.databinding.ActivityRegisterBinding
 import com.example.dietapp.dataclasses.FirebaseUser
 import com.example.dietapp.dataclasses.FirebaseUsername
+import com.example.dietapp.objects.Functions
 import com.example.dietapp.ui.login.ForgotPasswordActivity
 import com.example.dietapp.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -23,6 +24,8 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Functions.saveFragment(applicationContext,"cur")
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
