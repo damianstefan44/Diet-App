@@ -15,6 +15,7 @@ import com.example.dietapp.R
 import com.example.dietapp.dataclasses.Product
 import com.example.dietapp.objects.Functions
 import com.example.dietapp.ui.main.CurrentDayFragment
+import com.example.dietapp.ui.main.EditDietActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
@@ -59,7 +60,7 @@ class ProductEditAdapter(context: Context, meal: String, id: String, private var
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.productName.text = names[position]
         holder.productWeight.text = weights[position].toString() + " g"
-        holder.productCalories.text = calories[position].toString() + " kcal"
+        holder.productCalories.text = (calories[position]*weights[position]/100).toString() + " kcal"
 
         // This is what is going to be seen in each recyclerview item
     }
@@ -78,13 +79,13 @@ class ProductEditAdapter(context: Context, meal: String, id: String, private var
 
         val deleteId = ids[position]
 
+        mealRef.child(deleteId).setValue(null)
+
         ids.removeAt(position)
         names.removeAt(position)
         weights.removeAt(position)
         calories.removeAt(position)
         eaten.removeAt(position)
-
-        mealRef.child(deleteId).setValue(null)
 
         notifyDataSetChanged()
     }

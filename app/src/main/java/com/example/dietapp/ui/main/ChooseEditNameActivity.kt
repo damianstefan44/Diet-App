@@ -20,9 +20,10 @@ class ChooseEditNameActivity : AppCompatActivity() {
         add.setOnClickListener {
             if(!name.text.isNullOrEmpty()){
                 val intent = Intent(applicationContext, EditDietActivity::class.java)
-                intent.putExtra("name", name.text.toString())
+                intent.putExtra("planName", name.text.toString())
                 intent.putExtra("id","false")
                 startActivity(intent)
+                finish()
 
             }
             else{

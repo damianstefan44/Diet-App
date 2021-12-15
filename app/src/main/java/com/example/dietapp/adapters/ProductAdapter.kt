@@ -65,7 +65,7 @@ class ProductAdapter(context: Context, private var meal: String, private var ids
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.productName.text = names[position]
         holder.productWeight.text = weights[position].toString() + " g"
-        holder.productCalories.text = calories[position].toString() + " kcal"
+        holder.productCalories.text = (calories[position]*weights[position]/100).toString() + " kcal"
         when (eaten[position]) {
             true -> {
                 holder.productEaten.text = "Zjedzono"

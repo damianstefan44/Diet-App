@@ -13,13 +13,14 @@ import com.example.dietapp.ui.main.SubmitFavouriteProductActivity
 import com.example.dietapp.ui.main.SubmitFavouriteProductEditActivity
 import com.example.dietapp.ui.main.SubmitProductActivity
 
-class LimitedSearchedFavouriteProductEditAdapter(context: Context, meal: String, id: String, private var names: MutableList<String>, private var proteins: MutableList<Int>, private var fats: MutableList<Int>, private var carbs: MutableList<Int>, private var calories: MutableList<Int>):
+class LimitedSearchedFavouriteProductEditAdapter(context: Context, meal: String, id: String, planName: String, private var names: MutableList<String>, private var proteins: MutableList<Int>, private var fats: MutableList<Int>, private var carbs: MutableList<Int>, private var calories: MutableList<Int>):
     RecyclerView.Adapter<LimitedSearchedFavouriteProductEditAdapter.ViewHolder>()
 {
     val context = context
     private val limit = 15
     var meal = meal
     val id = id
+    val planName = planName
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
@@ -79,6 +80,7 @@ class LimitedSearchedFavouriteProductEditAdapter(context: Context, meal: String,
         println(calories)
         intent.putExtra("meal", meal)
         intent.putExtra("id", id)
+        intent.putExtra("planName", planName)
         intent.putExtra("name", name)
         intent.putExtra("proteins", proteins)
         intent.putExtra("fats", fats)

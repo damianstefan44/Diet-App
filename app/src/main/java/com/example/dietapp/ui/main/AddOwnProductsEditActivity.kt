@@ -20,6 +20,7 @@ class AddOwnProductsEditActivity : AppCompatActivity() {
 
     var meal: String = ""
     var id: String = ""
+    var planName: String = ""
     private lateinit var binding: ActivityAddOwnProductsEditBinding
     val uid = FirebaseAuth.getInstance().uid ?: ""
 
@@ -33,6 +34,7 @@ class AddOwnProductsEditActivity : AppCompatActivity() {
         if (bundle != null){
             meal = bundle.getString("meal").toString()
             id = bundle.getString("id").toString()
+            planName = bundle.getString("planName").toString()
         }
 
         val name = binding.addOwnProductEditName
@@ -134,6 +136,7 @@ class AddOwnProductsEditActivity : AppCompatActivity() {
             flags = (Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         intent.putExtra("id",id)
+        intent.putExtra("planName",planName)
         startActivity(intent)
 
 

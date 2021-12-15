@@ -20,6 +20,7 @@ class SubmitFavouriteProductEditActivity : AppCompatActivity() {
 
     var meal: String = ""
     var id: String = ""
+    var planName: String = ""
     var name: String = ""
     var proteins: Int = 0
     var fats: Int = 0
@@ -36,6 +37,7 @@ class SubmitFavouriteProductEditActivity : AppCompatActivity() {
         if (bundle != null){
             meal = bundle.getString("meal").toString()
             id = bundle.getString("id").toString()
+            planName = bundle.getString("planName").toString()
             name = bundle.getString("name").toString()
             proteins = bundle.getInt("proteins")
             fats = bundle.getInt("fats")
@@ -90,7 +92,8 @@ class SubmitFavouriteProductEditActivity : AppCompatActivity() {
         val intent = Intent(applicationContext, EditDietActivity::class.java).apply {
             flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
-        intent.putExtra("id",id)
+        intent.putExtra("id", id)
+        intent.putExtra("planName", planName)
         startActivity(intent)
 
     }

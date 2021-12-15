@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/userDietCardView"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/white"
+    android:layout_height="50dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_margin="5dp">
+
+    <RelativeLayout
+        android:id="@+id/userDietWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/userDietLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/userDietEdit"
+            android:gravity="center"
+            >
+
+
+            <TextView
+                android:id="@+id/userDietName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="5"
+                android:maxWidth="90dp"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:text="nazwa df d fd fd fd fd fd fd f fffffffffffffffffff " />
+
+            <TextView
+                android:id="@+id/userDietCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:maxWidth="72dp"
+                android:textSize="10dp"
+                android:text="12000 kcal"
+                />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/userDietEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:layout_toLeftOf="@+id/userDietLoad"
+            android:src="@drawable/ic_baseline_edit"
+            app:tint="#FB8303" />
+
+        <ImageView
+            android:id="@+id/userDietLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_add_24"
+            app:tint="#48C64D" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

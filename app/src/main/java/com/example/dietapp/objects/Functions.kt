@@ -128,7 +128,7 @@ object Functions {
             "breakfast" -> "Śniadanie"
             "secondbreakfast" -> "Drugie śniadanie"
             "lunch" -> "Obiad"
-            "snack" -> "Przekąska"
+            "snack" -> "Podwieczorek"
             "dinner" -> "Kolacja"
             else -> ""
         }

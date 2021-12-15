@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DietApp">
-        <activity android:name=".ui.main.ChooseEditNameActivity"></activity>
+        <activity android:name=".ui.main.ShowDietActivity"></activity>
+        <activity android:name=".ui.main.UserDietsActivity" />
+        <activity android:name=".ui.main.SearchUserDietsActivity" />
+        <activity android:name=".ui.main.LoadDietActivity" />
+        <activity android:name=".ui.main.ChooseEditNameActivity" />
         <activity android:name=".ui.main.SubmitFavouriteProductEditActivity" />
         <activity android:name=".ui.main.SearchOwnProductsEditActivity" />
         <activity android:name=".ui.main.AddOwnProductsEditActivity" />

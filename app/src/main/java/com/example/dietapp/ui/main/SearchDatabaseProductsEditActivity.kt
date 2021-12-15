@@ -23,6 +23,7 @@ class SearchDatabaseProductsEditActivity : AppCompatActivity() {
 
     var meal: String = ""
     var id: String = ""
+    var planName: String = ""
     var productAdapter: LimitedSearchedProductEditAdapter? = null
     var recycler: RecyclerView? = null
     var searchEditText: EditText? = null
@@ -41,6 +42,7 @@ class SearchDatabaseProductsEditActivity : AppCompatActivity() {
         if (bundle != null){
             meal = bundle.getString("meal").toString()
             id = bundle.getString("id").toString()
+            planName = bundle.getString("planName").toString()
         }
 
         val recycler = findViewById<RecyclerView>(R.id.search_database_products_edit_recycler)
@@ -104,7 +106,7 @@ class SearchDatabaseProductsEditActivity : AppCompatActivity() {
 
 
                         }
-                        productAdapter = LimitedSearchedProductEditAdapter(applicationContext, meal, id, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                        productAdapter = LimitedSearchedProductEditAdapter(applicationContext, meal, id, planName, nameList, proteinsList, fatsList, carbsList, caloriesList)
                         recycler!!.adapter = productAdapter
 
                     }
@@ -135,7 +137,7 @@ class SearchDatabaseProductsEditActivity : AppCompatActivity() {
                         addToList(product.name,product.proteins,product.fats,product.carbs,product.calories)
 
                     }
-                    productAdapter = LimitedSearchedProductEditAdapter(applicationContext, meal, id, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                    productAdapter = LimitedSearchedProductEditAdapter(applicationContext, meal, id, planName, nameList, proteinsList, fatsList, carbsList, caloriesList)
                     recycler.adapter = productAdapter
                 }
             }

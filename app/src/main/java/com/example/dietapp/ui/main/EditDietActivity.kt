@@ -1,5 +1,6 @@
 package com.example.dietapp.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
@@ -51,8 +53,16 @@ class EditDietActivity : AppCompatActivity() {
     private var dinnerEatenList = mutableListOf<Boolean>()
     private var dinnerIdList = mutableListOf<String>()
 
+    var breakfastCalories: TextView? = null
+    var secondBreakfastCalories: TextView? = null
+    var lunchCalories: TextView? = null
+    var snackCalories: TextView? = null
+    var dinnerCalories: TextView? = null
+
+    var totalCalories: Int = 0
+
     var id: String = ""
-    var name: String = ""
+    var planName: String = ""
     val uid = FirebaseAuth.getInstance().uid ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,8 +74,10 @@ class EditDietActivity : AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         if (bundle != null){
             id = bundle.getString("id").toString()
-            name = bundle.getString("name").toString()
+            planName = bundle.getString("planName").toString()
         }
+        id = intent.getStringExtra("id").toString()
+        planName = intent.getStringExtra("planName").toString()
 
         if(id == "" || id == "false"){
             val database = FirebaseDatabase.getInstance()
@@ -73,16 +85,17 @@ class EditDietActivity : AppCompatActivity() {
             id = dietRef.push().key.toString()
         }
 
-        val database = FirebaseDatabase.getInstance()
-        val dietRef = database.getReference("/userplans/$uid/$id")
+        if(planName != "" && !planName.isNullOrEmpty()){
+            val database = FirebaseDatabase.getInstance()
+            val dietRef = database.getReference("/userplans/$uid/$id")
 
-        val dietValues = DietValues(id, name, 0,
-            ServerValue.TIMESTAMP)
+            val dietValues = DietValues(id, planName, 0,
+                ServerValue.TIMESTAMP)
 
-        dietRef.child("values").setValue(dietValues).addOnCompleteListener {
+            dietRef.child("values").setValue(dietValues)
 
-            println("udalo sieeeeee")
         }
+
 
         val breakfast: RecyclerView = findViewById<View>(R.id.edit_breakfastRecyclerView) as RecyclerView
         val secondBreakfast: RecyclerView = findViewById<View>(R.id.edit_secondBreakfastRecyclerView) as RecyclerView
@@ -96,6 +109,12 @@ class EditDietActivity : AppCompatActivity() {
         val snackAdd: ImageView = findViewById<View>(R.id.edit_snackAdd) as ImageView
         val dinnerAdd: ImageView = findViewById<View>(R.id.edit_dinnerAdd) as ImageView
 
+        breakfastCalories = findViewById<View>(R.id.edit_breakfastCalories) as TextView
+        secondBreakfastCalories = findViewById<View>(R.id.edit_secondBreakfastCalories) as TextView
+        lunchCalories = findViewById<View>(R.id.edit_lunchCalories) as TextView
+        snackCalories = findViewById<View>(R.id.edit_snackCalories) as TextView
+        dinnerCalories = findViewById<View>(R.id.edit_dinnerCalories) as TextView
+
         val saveButton: Button = findViewById(R.id.edit_save_button)
 
         breakfastAdd.setOnClickListener {
@@ -103,6 +122,7 @@ class EditDietActivity : AppCompatActivity() {
             val meal = "breakfast"
             intent.putExtra("meal",meal)
             intent.putExtra("id",id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
         secondBreakfastAdd.setOnClickListener {
@@ -110,6 +130,7 @@ class EditDietActivity : AppCompatActivity() {
             val meal = "secondbreakfast"
             intent.putExtra("meal",meal)
             intent.putExtra("id",id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
         lunchAdd.setOnClickListener {
@@ -117,6 +138,7 @@ class EditDietActivity : AppCompatActivity() {
             val meal = "lunch"
             intent.putExtra("meal",meal)
             intent.putExtra("id",id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
         snackAdd.setOnClickListener {
@@ -124,6 +146,7 @@ class EditDietActivity : AppCompatActivity() {
             val meal = "snack"
             intent.putExtra("meal",meal)
             intent.putExtra("id",id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
         dinnerAdd.setOnClickListener {
@@ -131,6 +154,7 @@ class EditDietActivity : AppCompatActivity() {
             val meal = "dinner"
             intent.putExtra("meal",meal)
             intent.putExtra("id",id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
 
@@ -157,10 +181,9 @@ class EditDietActivity : AppCompatActivity() {
             uid,breakfast,secondBreakfast,lunch,snack,dinner)
 
         saveButton.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java).apply {
-                flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            }
+            val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
 
@@ -300,9 +323,14 @@ class EditDietActivity : AppCompatActivity() {
                         breakfastProductsList.add(product!!)
                         addToBreakfastList(product.name,product.weight,product.calories,product.eaten, product.id)
                         breakfast.adapter = ProductEditAdapter(ctx,"breakfast", id, breakfastIdList, breakfastNameList, breakfastWeightList, breakfastCaloriesList, breakfastEatenList)
-
+                        refreshCaloriesCounters("breakfast", breakfastWeightList, breakfastCaloriesList)
+                        getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
 
                     }
+                }
+                else{
+                    refreshCaloriesCounters("breakfast", breakfastWeightList, breakfastCaloriesList)
+                    //getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                 }
             }
 
@@ -321,9 +349,13 @@ class EditDietActivity : AppCompatActivity() {
                         secondBreakfastProductsList.add(product!!)
                         addToSecondBreakfastList(product.name,product.weight,product.calories,product.eaten, product.id)
                         secondBreakfast.adapter = ProductEditAdapter(ctx,"secondbreakfast", id, secondBreakfastIdList, secondBreakfastNameList, secondBreakfastWeightList, secondBreakfastCaloriesList, secondBreakfastEatenList)
-
-
+                        refreshCaloriesCounters("secondbreakfast", secondBreakfastWeightList, secondBreakfastCaloriesList)
+                        getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                     }
+                }
+                else{
+                    refreshCaloriesCounters("secondbreakfast", secondBreakfastWeightList, secondBreakfastCaloriesList)
+                    //getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                 }
             }
 
@@ -342,8 +374,13 @@ class EditDietActivity : AppCompatActivity() {
                         lunchProductsList.add(product!!)
                         addToLunchList(product.name,product.weight,product.calories,product.eaten, product.id)
                         lunch.adapter = ProductEditAdapter(ctx,"lunch", id, lunchIdList, lunchNameList, lunchWeightList, lunchCaloriesList, lunchEatenList)
-
+                        refreshCaloriesCounters("lunch", lunchWeightList, lunchCaloriesList)
+                        getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                     }
+                }
+                else{
+                    refreshCaloriesCounters("lunch", lunchWeightList, lunchCaloriesList)
+                    //getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                 }
             }
 
@@ -362,8 +399,13 @@ class EditDietActivity : AppCompatActivity() {
                         snackProductsList.add(product!!)
                         addToSnackList(product.name,product.weight,product.calories,product.eaten, product.id)
                         snack.adapter = ProductEditAdapter(ctx,"snack", id, snackIdList, snackNameList, snackWeightList, snackCaloriesList, snackEatenList)
-
+                        refreshCaloriesCounters("snack", snackWeightList, snackCaloriesList)
+                        getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                     }
+                }
+                else{
+                    refreshCaloriesCounters("snack", snackWeightList, snackCaloriesList)
+                    //getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                 }
             }
 
@@ -381,14 +423,14 @@ class EditDietActivity : AppCompatActivity() {
                         val product = productSnapshot.getValue(FirebaseMealProduct::class.java)
                         dinnerProductsList.add(product!!)
                         addToDinnerList(product.name,product.weight,product.calories,product.eaten, product.id)
-                        println(dinnerNameList)
-                        println(dinnerWeightList)
-                        println(dinnerCaloriesList)
-                        println(dinnerEatenList)
-                        println(dinnerIdList)
                         dinner.adapter = ProductEditAdapter(ctx,"dinner", id, dinnerIdList, dinnerNameList, dinnerWeightList, dinnerCaloriesList, dinnerEatenList)
-
+                        refreshCaloriesCounters("dinner", dinnerWeightList, dinnerCaloriesList)
+                        getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                     }
+                }
+                else{
+                    refreshCaloriesCounters("dinner", dinnerWeightList, dinnerCaloriesList)
+                    //getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
                 }
             }
 
@@ -401,6 +443,11 @@ class EditDietActivity : AppCompatActivity() {
         lunch.adapter?.notifyDataSetChanged()
         snack.adapter?.notifyDataSetChanged()
         dinner.adapter?.notifyDataSetChanged()
+        refreshCaloriesCounters("dinner", dinnerWeightList, dinnerCaloriesList)
+        refreshCaloriesCounters("secondbreakfast", secondBreakfastWeightList, secondBreakfastCaloriesList)
+        refreshCaloriesCounters("lunch", lunchWeightList, lunchCaloriesList)
+        refreshCaloriesCounters("snack", snackWeightList, snackCaloriesList)
+        refreshCaloriesCounters("dinner", dinnerWeightList, dinnerCaloriesList)
     }
 
     fun refreshMeals(ctx: Context){
@@ -414,4 +461,80 @@ class EditDietActivity : AppCompatActivity() {
         getDailyMeals(ctx,uid,breakfast,secondBreakfast,lunch,snack,dinner)
 
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun refreshCaloriesCounters(mealType: String, mealWeightList: MutableList<Int>, mealCaloriesList: MutableList<Int>) {
+
+        var mealCaloriesCounter: Int = 0
+        var size: Int = 0
+        size = mealCaloriesList.size - 1
+
+        if(size == -1)
+            mealCaloriesCounter = 0
+        else{
+            for(i in 0..size){
+                mealCaloriesCounter += (mealCaloriesList[i] * mealWeightList[i] / 100)
+            }
+        }
+        println("0000000000000000000000000000000000000000000000000000")
+        println(mealCaloriesCounter)
+        println("0000000000000000000000000000000000000000000000000000")
+
+
+        when (mealType) {
+            "breakfast" -> breakfastCalories!!.text = "$mealCaloriesCounter kcal"
+            "secondbreakfast" -> secondBreakfastCalories!!.text = "$mealCaloriesCounter kcal"
+            "lunch" -> lunchCalories!!.text = "$mealCaloriesCounter kcal"
+            "snack" -> snackCalories!!.text = "$mealCaloriesCounter kcal"
+            "dinner" -> dinnerCalories!!.text = "$mealCaloriesCounter kcal"
+            else -> {}
+
+        }
+
+    }
+
+    private fun getCalories(breakfastWeightList: MutableList<Int>, breakfastCaloriesList: MutableList<Int>,
+                            secondBreakfastWeightList: MutableList<Int>, secondBreakfastCaloriesList: MutableList<Int>,
+                            lunchWeightList: MutableList<Int>, lunchCaloriesList: MutableList<Int>,
+                            snackWeightList: MutableList<Int>, snackCaloriesList: MutableList<Int>,
+                            dinnerWeightList: MutableList<Int>, dinnerCaloriesList: MutableList<Int>){
+
+        var breakfastCaloriesCounter: Int = 0
+        var secondBreakfastCaloriesCounter: Int = 0
+        var lunchCaloriesCounter: Int = 0
+        var snackCaloriesCounter: Int = 0
+        var dinnerCaloriesCounter: Int = 0
+        var size: Int = 0
+
+        size = breakfastCaloriesList.size - 1
+        for(i in 0..size){
+            breakfastCaloriesCounter += (breakfastCaloriesList[i] * breakfastWeightList[i] / 100)
+        }
+        size = secondBreakfastCaloriesList.size - 1
+        for(i in 0..size){
+            secondBreakfastCaloriesCounter += (secondBreakfastCaloriesList[i] * secondBreakfastWeightList[i] / 100)
+        }
+        size = lunchCaloriesList.size - 1
+        for(i in 0..size){
+            lunchCaloriesCounter += (lunchCaloriesList[i] * lunchWeightList[i] / 100)
+        }
+        size = snackCaloriesList.size - 1
+        for(i in 0..size){
+            snackCaloriesCounter += (snackCaloriesList[i] * snackWeightList[i] / 100)
+        }
+        size = dinnerCaloriesList.size - 1
+        for(i in 0..size){
+            dinnerCaloriesCounter += (dinnerCaloriesList[i] * dinnerWeightList[i] / 100)
+        }
+
+        val database = FirebaseDatabase.getInstance()
+        val dietRef = database.getReference("/userplans/$uid/$id/values")
+
+        val dietCalories = breakfastCaloriesCounter + secondBreakfastCaloriesCounter + lunchCaloriesCounter + snackCaloriesCounter + dinnerCaloriesCounter
+
+        dietRef.child("calories").setValue(dietCalories)
+
+
+    }
+
 }

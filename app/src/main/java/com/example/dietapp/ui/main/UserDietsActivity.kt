@@ -1,27 +1,21 @@
 package com.example.dietapp.ui.main
 
 import android.content.Context
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dietapp.adapters.DietAdapter
 import com.example.dietapp.R
-import com.example.dietapp.adapters.FavouriteProductsAdapter
-import com.example.dietapp.dataclasses.FirebaseFavouriteProduct
+import com.example.dietapp.adapters.DietAdapter
+import com.example.dietapp.adapters.UserDietAdapter
 import com.example.dietapp.dataclasses.MyDietsProduct
-import com.example.dietapp.objects.Functions
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
-class MyDietsFragment:Fragment(R.layout.fragment_my_diets) {
+class UserDietsActivity : AppCompatActivity() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<DietAdapter.ViewHolder>? = null
@@ -29,39 +23,31 @@ class MyDietsFragment:Fragment(R.layout.fragment_my_diets) {
     private var nameList = mutableListOf<String>()
     private var caloriesList = mutableListOf<Int>()
     private var idsList = mutableListOf<String>()
-
-    private val uid = FirebaseAuth.getInstance().uid ?: ""
+    var id: String = ""
+    var name: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Functions.saveFragment(requireContext(),"cur")
+        setContentView(R.layout.activity_user_diets)
 
-    }
-
-
-
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(itemView, savedInstanceState)
-
-        val ctx = requireActivity().applicationContext
-
-        val myDiets: RecyclerView = requireView().findViewById<View>(R.id.myDietsRecycler) as RecyclerView
-        val addButton: FloatingActionButton = requireView().findViewById<View>(R.id.myDiets_floating_action_button) as FloatingActionButton
-
-        addButton.setOnClickListener {
-            val intent = Intent(requireContext(), ChooseEditNameActivity::class.java)
-            startActivity(intent)
+        val bundle: Bundle? = intent.extras
+        if (bundle != null){
+            id = bundle.getString("id").toString()
+            name = bundle.getString("name").toString()
         }
 
-        myDiets.apply {
-            // set a LinearLayoutManager to handle Android
-            // RecyclerView behavior
-            layoutManager = LinearLayoutManager(activity)
-            // set the custom adapter to the RecyclerView
-            adapter = DietAdapter(ctx, nameList, caloriesList, idsList)
-        }
+        println("----------------------------")
+        println(id)
+        println(name)
+        println("----------------------------")
 
-        getMyPlans(ctx, uid, myDiets)
+        val userDiets: RecyclerView = findViewById<View>(R.id.userDietsRecycler) as RecyclerView
+
+        userDiets.layoutManager = LinearLayoutManager(applicationContext)
+        userDiets.adapter = UserDietAdapter(applicationContext, id, nameList, caloriesList, idsList)
+
+        getMyPlans(applicationContext, id, userDiets)
+
 
     }
 
@@ -80,16 +66,11 @@ class MyDietsFragment:Fragment(R.layout.fragment_my_diets) {
                         if(diet != null) {
                             myDietsList.add(diet!!)
                             addToList(diet.name, diet.calories, diet.id)
-                            myDiets.adapter = DietAdapter(ctx, nameList, caloriesList, idsList)
+                            myDiets.adapter = UserDietAdapter(ctx, uid, nameList, caloriesList, idsList)
                         }
 
 
                     }
-                }
-                else{
-                    clearList()
-                    myDiets.adapter = DietAdapter(ctx, nameList, caloriesList, idsList)
-
                 }
             }
 
@@ -112,6 +93,4 @@ class MyDietsFragment:Fragment(R.layout.fragment_my_diets) {
         caloriesList.clear()
         idsList.clear()
     }
-
 }
-

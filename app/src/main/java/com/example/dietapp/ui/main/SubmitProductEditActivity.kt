@@ -20,6 +20,7 @@ class SubmitProductEditActivity : AppCompatActivity() {
     var meal: String = ""
     var id: String = ""
     var name: String = ""
+    var planName: String = ""
     var proteins: Int = 0
     var fats: Int = 0
     var carbs: Int = 0
@@ -33,13 +34,15 @@ class SubmitProductEditActivity : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
         if (bundle != null){
-            name = bundle.getString("name").toString()
+            planName = bundle.getString("planName").toString()
             id = bundle.getString("id").toString()
+            meal = bundle.getString("meal").toString()
+
+            name = bundle.getString("name").toString()
             proteins = bundle.getInt("proteins")
             fats = bundle.getInt("fats")
             carbs = bundle.getInt("carbs")
             calories = bundle.getInt("calories")
-            meal = bundle.getString("meal").toString()
         }
 
         val subName: TextView = findViewById(R.id.submit_product_edit_name)
@@ -93,6 +96,7 @@ class SubmitProductEditActivity : AppCompatActivity() {
             flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
         intent.putExtra("id",id)
+        intent.putExtra("planName",planName)
         startActivity(intent)
 
     }

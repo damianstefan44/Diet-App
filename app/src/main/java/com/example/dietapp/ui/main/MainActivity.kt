@@ -69,11 +69,14 @@ class MainActivity : AppCompatActivity() {
 
         when(Functions.getFragment(applicationContext)){
             "fav" ->{favProds.performClick()
-                selectFragment(favourites)}
+                selectFragment(favourites)
+                dateView.visibility = View.GONE}
             "diets" ->{diets.performClick()
-                selectFragment(myDiets)}
+                selectFragment(myDiets)
+                dateView.visibility = View.GONE}
             "cur" ->{curDay.performClick()
-                selectFragment(currentDay)}
+                selectFragment(currentDay)
+                dateView.visibility = View.VISIBLE}
         }
 
         prevDate.setOnClickListener {
@@ -127,10 +130,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_logout -> {
             
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(applicationContext, LoginActivity::class.java).apply{
-                flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            }
+            //FirebaseAuth.getInstance().signOut()
+            //val intent = Intent(applicationContext, LoginActivity::class.java).apply{
+            //    flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            //}
+            //startActivity(intent)
+
+            val intent = Intent(applicationContext, SearchUserDietsActivity::class.java)
             startActivity(intent)
 
 

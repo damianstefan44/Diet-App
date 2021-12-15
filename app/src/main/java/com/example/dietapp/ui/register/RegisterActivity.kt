@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dietapp.databinding.ActivityRegisterBinding
+import com.example.dietapp.dataclasses.FirebaseSettings
 import com.example.dietapp.dataclasses.FirebaseUser
 import com.example.dietapp.dataclasses.FirebaseUsername
 import com.example.dietapp.objects.Functions
@@ -123,7 +124,7 @@ class RegisterActivity : AppCompatActivity() {
                                 return@addOnCompleteListener
                             }
                             // save to firebase
-                            saveUserToFirebaseDatabase(it.toString())
+                            saveUserToFirebaseDatabase()
                             Log.d(
                                 "TAG",
                                 "Successfully registered user in firebase (uid: ${it.result?.user?.uid})"
@@ -160,7 +161,7 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+    private fun saveUserToFirebaseDatabase() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
         val mail = binding.registerEmail
@@ -168,9 +169,11 @@ class RegisterActivity : AppCompatActivity() {
         val load = binding.registerLoading
         val dbUsr = usr.text.toString().trim().lowercase()
         val ref2 = FirebaseDatabase.getInstance().getReference("/usernames/$uid")
+        val ref3 = FirebaseDatabase.getInstance().getReference("/settings/$uid")
 
         val user = FirebaseUser(mail.text.toString(),usr.text.toString())
         val username = FirebaseUsername(dbUsr)
+        val settings = FirebaseSettings(uid, dbUsr, agreeToSearch = true, admin = false)
 
         ref.setValue(user)
             .addOnSuccessListener {
@@ -188,6 +191,15 @@ class RegisterActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d("TAG", "Failed to set username to database: ${it.message}")
+
+            }
+        ref3.setValue(settings)
+            .addOnSuccessListener {
+                Log.d("TAG", "Successfully saved user settings to Firebase Database")
+
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "Failed to save user settings to database: ${it.message}")
 
             }
     }

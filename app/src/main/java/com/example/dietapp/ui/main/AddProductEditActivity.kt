@@ -10,6 +10,7 @@ import com.example.dietapp.ui.login.ForgotPasswordActivity
 class AddProductEditActivity : AppCompatActivity() {
 
     var meal: String = ""
+    var planName: String = ""
     var id: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +21,7 @@ class AddProductEditActivity : AppCompatActivity() {
         if (bundle != null){
             meal = bundle.getString("meal").toString()
             id = bundle.getString("id").toString()
+            planName = bundle.getString("planName").toString()
         }
 
         val dbButton: Button = findViewById(R.id.add_product_edit_add_base)
@@ -31,6 +33,7 @@ class AddProductEditActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, SearchDatabaseProductsEditActivity::class.java)
             intent.putExtra("meal", meal)
             intent.putExtra("id", id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
 
@@ -38,6 +41,7 @@ class AddProductEditActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, SearchOwnProductsEditActivity::class.java)
             intent.putExtra("meal", meal)
             intent.putExtra("id", id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
 
@@ -45,6 +49,7 @@ class AddProductEditActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, AddOwnProductsEditActivity::class.java)
             intent.putExtra("meal", meal)
             intent.putExtra("id", id)
+            intent.putExtra("planName",planName)
             startActivity(intent)
         }
 
