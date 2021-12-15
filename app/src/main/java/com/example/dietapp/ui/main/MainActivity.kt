@@ -10,8 +10,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.cesarferreira.tempo.Tempo
 import com.cesarferreira.tempo.days
@@ -19,23 +23,58 @@ import com.cesarferreira.tempo.minus
 import com.cesarferreira.tempo.plus
 import com.example.dietapp.R
 import com.example.dietapp.objects.Functions
-import com.example.dietapp.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
-private val uid = FirebaseAuth.getInstance().uid ?: ""
-var fragment: String = ""
 
 class MainActivity : AppCompatActivity() {
+
+    private val uid = FirebaseAuth.getInstance().uid ?: ""
+    var fragment: String = ""
+    lateinit var actionToggle: ActionBarDrawerToggle
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.main_toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val toolbar: Toolbar = findViewById(R.id.main_toolbar)
+
+
+
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+
+        actionToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.open,
+            R.string.close
+        )
+
+        drawerLayout.addDrawerListener(actionToggle)
+        actionToggle.syncState()
+        //actionToggle.isDrawerIndicatorEnabled = false
+
+        navView.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.nav_settings ->{
+                    Toast.makeText(applicationContext,"ustawienia",Toast.LENGTH_LONG).show()}
+                R.id.nav_logout ->{
+                    Toast.makeText(applicationContext,"wyloguj",Toast.LENGTH_LONG).show()}
+                R.id.nav_add_database ->{
+                    Toast.makeText(applicationContext,"dodaj do bazy",Toast.LENGTH_LONG).show()}
+
+            }
+            true
+        }
 
         //supportActionBar?.hide()
 
@@ -119,37 +158,17 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-    
 
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (actionToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_logout -> {
-            
-            //FirebaseAuth.getInstance().signOut()
-            //val intent = Intent(applicationContext, LoginActivity::class.java).apply{
-            //    flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            //}
-            //startActivity(intent)
 
-            val intent = Intent(applicationContext, SearchUserDietsActivity::class.java)
-            startActivity(intent)
-
-
-            true
-        }
-
-
-        else -> {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
-            super.onOptionsItemSelected(item)
-        }
-    }
 
     private fun selectFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {

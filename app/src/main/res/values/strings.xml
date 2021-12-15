@@ -13,6 +13,8 @@
     <string name="login_failed">"Login failed"</string>
     <string name="shared_preferences">SharedPreferencesName</string>
     <string name="saved_date">Saved Date</string>
+    <string name="open">Otwórz</string>
+    <string name="close">Zamknij</string>
     <string name="fragment">Fragment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

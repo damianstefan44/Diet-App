@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_baseline_settings"
+        android:title="Ustawienia" />
+
+    <item android:title="Profil">
+
+        <menu>
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_baseline_logout"
+                android:title="Wyloguj się" />
+
+        </menu>
+
+    </item>
+
+    <item android:title="Dodatkowe">
+
+        <menu>
+
+            <item
+                android:id="@+id/nav_add_database"
+                android:icon="@drawable/ic_baseline_add_24"
+                android:title="Dodaj produkt do bazy" />
+
+        </menu>
+
+    </item>
+
+</menu>

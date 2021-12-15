@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,6 +54,7 @@ class FavouriteProductsFragment:Fragment(R.layout.fragment_favourite_products) {
 
         val favourites: RecyclerView = requireView().findViewById<View>(R.id.favouriteProductsRecycler) as RecyclerView
         val addButton: FloatingActionButton = requireView().findViewById<View>(R.id.favouriteProducts_floating_action_button) as FloatingActionButton
+
 
         addButton.setOnClickListener {
             val intent = Intent(requireContext(), AddFavouriteProductActivity::class.java)

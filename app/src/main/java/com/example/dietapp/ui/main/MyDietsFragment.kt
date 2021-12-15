@@ -1,16 +1,18 @@
 package com.example.dietapp.ui.main
 
+import android.R.layout
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dietapp.adapters.DietAdapter
 import com.example.dietapp.R
-import com.example.dietapp.adapters.FavouriteProductsAdapter
-import com.example.dietapp.dataclasses.FirebaseFavouriteProduct
+import com.example.dietapp.adapters.DietAdapter
 import com.example.dietapp.dataclasses.MyDietsProduct
 import com.example.dietapp.objects.Functions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,8 +47,11 @@ class MyDietsFragment:Fragment(R.layout.fragment_my_diets) {
 
         val ctx = requireActivity().applicationContext
 
-        val myDiets: RecyclerView = requireView().findViewById<View>(R.id.myDietsRecycler) as RecyclerView
-        val addButton: FloatingActionButton = requireView().findViewById<View>(R.id.myDiets_floating_action_button) as FloatingActionButton
+        val myDiets: RecyclerView =
+            requireView().findViewById<View>(R.id.myDietsRecycler) as RecyclerView
+        val addButton: FloatingActionButton =
+            requireView().findViewById<View>(R.id.myDiets_floating_action_button) as FloatingActionButton
+
 
         addButton.setOnClickListener {
             val intent = Intent(requireContext(), ChooseEditNameActivity::class.java)
