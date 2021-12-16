@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/bottom_nav_my_diets"
-        android:title="My diets"
+        android:title="Moje plany"
         />
     <item
         android:id="@+id/bottom_nav_current_day"
-        android:title="Current day"
+        android:title="Bieżący dzień"
         />
     <item
         android:id="@+id/bottom_nav_favourite"
-        android:title="Favourite"
+        android:title="Ulubione"
         />
 
 </menu>

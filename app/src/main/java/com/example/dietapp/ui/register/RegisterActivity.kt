@@ -168,7 +168,6 @@ class RegisterActivity : AppCompatActivity() {
         val usr = binding.registerUsername
         val load = binding.registerLoading
         val dbUsr = usr.text.toString().trim().lowercase()
-        val ref2 = FirebaseDatabase.getInstance().getReference("/usernames/$uid")
         val ref3 = FirebaseDatabase.getInstance().getReference("/settings/$uid")
 
         val user = FirebaseUser(mail.text.toString(),usr.text.toString())
@@ -183,15 +182,6 @@ class RegisterActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d("TAG", "Failed to set value to database: ${it.message}")
                 load.visibility = View.GONE
-            }
-        ref2.setValue(username)
-            .addOnSuccessListener {
-                Log.d("TAG", "Finally we saved the username to Firebase Database")
-
-            }
-            .addOnFailureListener {
-                Log.d("TAG", "Failed to set username to database: ${it.message}")
-
             }
         ref3.setValue(settings)
             .addOnSuccessListener {

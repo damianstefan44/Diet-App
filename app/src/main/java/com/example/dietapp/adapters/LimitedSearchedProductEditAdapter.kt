@@ -48,10 +48,10 @@ class LimitedSearchedProductEditAdapter(context: Context, meal: String, id: Stri
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.searchedProdName.text = names[position]
-        holder.searchedProdProteins.text = proteins[position].toString()
-        holder.searchedProdFats.text = fats[position].toString()
-        holder.searchedProdCarbs.text = carbs[position].toString()
-        holder.searchedProdCalories.text = calories[position].toString()
+        holder.searchedProdProteins.text = proteins[position].toString() + " g"
+        holder.searchedProdFats.text = fats[position].toString() + " g"
+        holder.searchedProdCarbs.text = carbs[position].toString() + " g"
+        holder.searchedProdCalories.text = calories[position].toString() + " kcal"
 
 
     }

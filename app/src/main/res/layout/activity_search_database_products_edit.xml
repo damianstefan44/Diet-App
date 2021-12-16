@@ -17,13 +17,21 @@
         android:hint="Wpisz nazwę produktu"
         android:inputType="textPersonName" />
 
+    <include
+        android:id="@+id/favouriteProductsLabel"
+        layout="@layout/favourite_products_label_layout"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="70dp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_database_products_edit_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/search_database_products_edit_search"
-        android:layout_marginTop="14dp" />
+        android:layout_marginTop="32dp" />
 
 
 

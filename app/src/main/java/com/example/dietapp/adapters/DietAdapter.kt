@@ -56,7 +56,7 @@ class DietAdapter(context: Context, private var names: MutableList<String>, priv
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.dietName.text = names[position]
-        holder.dietCalories.text = calories[position].toString()
+        holder.dietCalories.text = calories[position].toString() + " kcal"
 
 
     }

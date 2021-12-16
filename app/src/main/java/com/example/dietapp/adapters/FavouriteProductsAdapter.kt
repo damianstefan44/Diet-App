@@ -45,10 +45,10 @@ class FavouriteProductsAdapter(private var names: MutableList<String>, private v
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.favProdName.text = names[position]
-        holder.favProdProteins.text = proteins[position].toString()
-        holder.favProdFats.text = fats[position].toString()
-        holder.favProdCarbs.text = carbs[position].toString()
-        holder.favProdCalories.text = calories[position].toString()
+        holder.favProdProteins.text = proteins[position].toString() + " g"
+        holder.favProdFats.text = fats[position].toString() + " g"
+        holder.favProdCarbs.text = carbs[position].toString() + " g"
+        holder.favProdCalories.text = calories[position].toString() + " kcal"
 
 
     }

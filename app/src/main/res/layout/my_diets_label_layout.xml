@@ -3,99 +3,104 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/dietCardView"
     android:layout_width="match_parent"
-    android:backgroundTint="@color/diet_app_main_color_bright"
+    android:backgroundTint="@color/diet_app_main_color_darkest"
     android:layout_height="25dp"
     android:focusable="true"
     android:clickable="true"
     android:layout_margin="5dp">
 
-    <RelativeLayout
-        android:id="@+id/dietLabelWrapper"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dietLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="5dp"
         >
 
+        <TextView
+            android:id="@+id/dietLabelName"
+            android:layout_width="120dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:text="Nazwa"
+            android:textStyle="bold"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/dietLabelCalories"
+            android:layout_width="90dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="128dp"
+            android:text="Kalorie"
+            android:textStyle="bold"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+
         <LinearLayout
-            android:id="@+id/dietLabelLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/dietLabelLoad"
-            android:gravity="center"
-            >
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="5dp">
 
             <TextView
-                android:id="@+id/dietLabelName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="8"
-                android:maxWidth="90dp"
-                android:textSize="10dp"
-                android:text="  Nazwa"
+                android:id="@+id/dietLabelLoad"
+                android:layout_width="32dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
                 android:textStyle="bold"
+                android:textSize="10dp"
+                android:text="Do"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
-                android:id="@+id/dietLabelCalories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="4"
-                android:maxWidth="72dp"
-                android:textSize="10dp"
-                android:text="         Kalorie"
+                android:id="@+id/dietLabelEdit"
+                android:layout_width="32dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
                 android:textStyle="bold"
+                android:textSize="10dp"
+                android:text="Ed"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
+            <TextView
+                android:id="@+id/dietLabelDelete"
+                android:layout_width="32dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:text="Us"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/dietLabelLoad"
-            android:layout_width="33dp"
-            android:layout_height="24dp"
-            android:textSize="10dp"
-            android:text="Do"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:layout_toLeftOf="@+id/dietLabelEdit"
-             />
-
-        <TextView
-            android:id="@+id/dietLabelEdit"
-            android:layout_width="33dp"
-            android:layout_height="24dp"
-            android:textSize="10dp"
-            android:text="Ed"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:layout_toLeftOf="@+id/dietLabelDelete"
-             />
-
-        <TextView
-            android:id="@+id/dietLabelDelete"
-            android:layout_width="33dp"
-            android:layout_height="24dp"
-            android:textSize="10dp"
-            android:text="Us"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-             />
-
-
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

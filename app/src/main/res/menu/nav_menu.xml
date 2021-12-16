@@ -27,6 +27,11 @@
         <menu>
 
             <item
+                android:id="@+id/nav_search_plans"
+                android:icon="@drawable/ic_baseline_search"
+                android:title="Szukaj planów użytkowników" />
+
+            <item
                 android:id="@+id/nav_add_database"
                 android:icon="@drawable/ic_baseline_add_24"
                 android:title="Dodaj produkt do bazy" />

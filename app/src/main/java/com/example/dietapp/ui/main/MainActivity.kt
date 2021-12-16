@@ -22,10 +22,17 @@ import com.cesarferreira.tempo.days
 import com.cesarferreira.tempo.minus
 import com.cesarferreira.tempo.plus
 import com.example.dietapp.R
+import com.example.dietapp.dataclasses.FirebaseAdmin
+import com.example.dietapp.dataclasses.FirebaseSettings
 import com.example.dietapp.objects.Functions
+import com.example.dietapp.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 
@@ -40,9 +47,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         setSupportActionBar(findViewById(R.id.main_toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         val toolbar: Toolbar = findViewById(R.id.main_toolbar)
 
@@ -66,11 +75,47 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_settings ->{
-                    Toast.makeText(applicationContext,"ustawienia",Toast.LENGTH_LONG).show()}
+                    val intent = Intent(applicationContext, SettingsActivity::class.java)
+                    startActivity(intent)
+                }
                 R.id.nav_logout ->{
-                    Toast.makeText(applicationContext,"wyloguj",Toast.LENGTH_LONG).show()}
+                    FirebaseAuth.getInstance().signOut()
+                    val intent = Intent(applicationContext, LoginActivity::class.java).apply{
+                        flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    }
+                    startActivity(intent)
+                }
+                R.id.nav_search_plans ->{
+                    val intent = Intent(applicationContext, SearchUserDietsActivity::class.java)
+                    startActivity(intent)
+                }
                 R.id.nav_add_database ->{
-                    Toast.makeText(applicationContext,"dodaj do bazy",Toast.LENGTH_LONG).show()}
+                    val database = FirebaseDatabase.getInstance()
+                    val settingsRef = database.getReference("/settings/$uid")
+
+                    settingsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                val setting = dataSnapshot.getValue(FirebaseSettings::class.java)
+                                if (setting!!.admin) {
+                                    val intent = Intent(applicationContext, AdminAddProductActivity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    Toast.makeText(applicationContext,"Nie posiadasz praw administratora",Toast.LENGTH_LONG).show()
+                                }
+                            } else {
+                                Log.d("Ustawienia", "Nie pobrano")
+                                //getCalories(breakfastWeightList, breakfastCaloriesList, secondBreakfastWeightList, secondBreakfastCaloriesList, lunchWeightList, lunchCaloriesList, snackWeightList, snackCaloriesList, dinnerWeightList, dinnerCaloriesList)
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            println("The read failed: " + databaseError.code)
+                        }
+                    })
+
+                }
+
 
             }
             true
@@ -158,16 +203,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        if (actionToggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
 
 
     private fun selectFragment(fragment: Fragment)=

@@ -9,8 +9,8 @@
     >
 
     <include
-        android:id="@+id/favouriteProductsLabel"
-        layout="@layout/my_diets_label_layout"
+        android:id="@+id/userDietsLabel"
+        layout="@layout/test"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         />

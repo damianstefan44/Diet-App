@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
     private val mAuth = FirebaseAuth.getInstance()
     private val LOG_DEBUG = "LOG_DEBUG"
