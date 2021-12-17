@@ -25,6 +25,16 @@
         android:layout_below="@+id/search_user_diets_search"
         android:layout_marginTop="14dp" />
 
+    <ImageView
+        android:id="@+id/search_user_diets_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="18dp"
+        android:src="@drawable/ic_baseline_search" />
+
 
 
 </RelativeLayout>

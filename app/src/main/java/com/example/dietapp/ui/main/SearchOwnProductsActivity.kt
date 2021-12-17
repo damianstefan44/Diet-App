@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
@@ -44,10 +45,14 @@ class SearchOwnProductsActivity : AppCompatActivity() {
 
         val recycler = findViewById<RecyclerView>(R.id.search_own_products_recycler)
         val searchEditText = findViewById<EditText>(R.id.search_own_products_search)
+        val search = findViewById<ImageView>(R.id.search_own_products_search_button)
+
+
         retrieveProducts(searchEditText)
 
         recycler.setHasFixedSize(true)
         recycler.layoutManager = LinearLayoutManager(applicationContext)
+
 
         searchEditText.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -55,7 +60,9 @@ class SearchOwnProductsActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchForProducts(s.toString().lowercase(),recycler)
+                clearList()
+                productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                recycler!!.adapter = productAdapter
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -63,6 +70,11 @@ class SearchOwnProductsActivity : AppCompatActivity() {
             }
 
         })
+
+        search.setOnClickListener {
+            val s = searchEditText.text.toString()
+            searchForProducts(s,recycler)
+        }
 
     }
 

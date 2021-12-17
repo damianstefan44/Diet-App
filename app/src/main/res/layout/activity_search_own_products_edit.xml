@@ -33,6 +33,16 @@
         android:layout_below="@+id/search_own_products_edit_search"
         android:layout_marginTop="32dp" />
 
+    <ImageView
+        android:id="@+id/search_own_products_edit_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="18dp"
+        android:src="@drawable/ic_baseline_search" />
+
 
 
 </RelativeLayout>
