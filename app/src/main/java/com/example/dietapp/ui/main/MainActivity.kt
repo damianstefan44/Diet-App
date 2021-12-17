@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         override fun onCancelled(databaseError: DatabaseError) {
-                            println("The read failed: " + databaseError.code)
+                            Log.d("TAG","The read failed: " + databaseError.code)
                         }
                     })
 
@@ -142,9 +142,9 @@ class MainActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         var currentDate: Date = Tempo.now
-        currDate.text = getTextViewDate(currentDate)
+        currDate.text = Functions.getTextViewDate(currentDate)
         Log.e("dzisiaj", currentDate.toString())
-        Log.e("dzisiaj", databaseDate(currentDate))
+        Log.e("dzisiaj", Functions.databaseDate(currentDate))
         Functions.saveDate(this, Functions.databaseDate(currentDate))
 
         val curDay : View = bottomNav.findViewById(R.id.bottom_nav_current_day)
@@ -166,14 +166,14 @@ class MainActivity : AppCompatActivity() {
         prevDate.setOnClickListener {
             currentDate -= 1.days
             Functions.saveDate(this, Functions.databaseDate(currentDate))
-            currDate.text = getTextViewDate(currentDate)
+            currDate.text = Functions.getTextViewDate(currentDate)
             currentDay.refreshMeals(applicationContext)
         }
 
         nextDate.setOnClickListener {
             currentDate += 1.days
             Functions.saveDate(this, Functions.databaseDate(currentDate))
-            currDate.text = getTextViewDate(currentDate)
+            currDate.text = Functions.getTextViewDate(currentDate)
             currentDay.refreshMeals(applicationContext)
 
 
@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(this@MainActivity, DatePickerDialog.OnDateSetListener
             { view, year, monthOfYear, dayOfMonth ->
                 currentDate = Tempo.with(year,monthOfYear+1,dayOfMonth)
-                currDate.text = getTextViewDate(currentDate)
+                currDate.text = Functions.getTextViewDate(currentDate)
             }, year, month, day)
             Functions.saveDate(this, Functions.databaseDate(currentDate))
             datePickerDialog.show()
@@ -211,65 +211,6 @@ class MainActivity : AppCompatActivity() {
             commitNow()
         }
 
-    private fun getTextViewDate(date: Date): String{
-
-        val dayOfTheWeek = DateFormat.format("EEEE", date) as String
-        val day = DateFormat.format("dd", date) as String
-        val month = DateFormat.format("MM", date) as String
-        val year = DateFormat.format("yyyy", date) as String
-
-        val properDayOfTheWeek = when (dayOfTheWeek) {
-            "poniedziałek" -> "Pon"
-            "wtorek" -> "Wt"
-            "środa" -> "Śr"
-            "czwartek" -> "Czw"
-            "piątek" -> "Pt"
-            "sobota" -> "Sb"
-            "niedziela" -> "Nd"
-            "Monday" -> "Pon"
-            "Tuesday" -> "Wt"
-            "Wednesday" -> "Śr"
-            "Thursday" -> "Czw"
-            "Friday" -> "Pt"
-            "Saturday" -> "Sb"
-            "Sunday" -> "Nd"
-            else -> ""
-        }
-        val properMonth = when (month) {
-            "01" -> "sty"
-            "02" -> "lut"
-            "03" -> "mar"
-            "04" -> "kwi"
-            "05" -> "maj"
-            "06" -> "cze"
-            "07" -> "lip"
-            "08" -> "sie"
-            "09" -> "wrz"
-            "10" -> "paź"
-            "11" -> "lis"
-            "12" -> "gru"
-            else -> {
-                print("ERROR - Zły miesiąc")
-            }
-        }
-
-        if(properDayOfTheWeek == ""){
-            return "$day $properMonth"
-        }
-
-    return "$properDayOfTheWeek $day $properMonth"
-
-    }
-
-    private fun databaseDate(date: Date): String{
-
-        val day = DateFormat.format("dd", date) as String
-        val month = DateFormat.format("MM", date) as String
-        val year = DateFormat.format("yyyy", date) as String
-
-        return "$day-$month-$year"
-
-    }
 
 
 }

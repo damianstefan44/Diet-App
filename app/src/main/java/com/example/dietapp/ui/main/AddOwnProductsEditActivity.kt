@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import com.example.dietapp.R
 import com.example.dietapp.databinding.ActivityAddOwnProductsBinding
@@ -37,12 +38,6 @@ class AddOwnProductsEditActivity : AppCompatActivity() {
             planName = bundle.getString("planName").toString()
         }
 
-        val name = binding.addOwnProductEditName
-        val calories = binding.addOwnProductEditCalories
-        val carbs = binding.addOwnProductEditCarbs
-        val fats = binding.addOwnProductEditFats
-        val proteins = binding.addOwnProductEditProteins
-        val weight = binding.addOwnProductEditWeight
         val addButton = binding.addOwnProductEditAdd
 
 
@@ -51,7 +46,6 @@ class AddOwnProductsEditActivity : AppCompatActivity() {
         }
 
     }
-
 
     private fun addOwnProduct() {
 
@@ -119,7 +113,6 @@ class AddOwnProductsEditActivity : AppCompatActivity() {
             return
         }
 
-        val date = Functions.getDate(applicationContext).toString()
         val database = FirebaseDatabase.getInstance()
         val mealRef = database.getReference("/userplans/$uid/$id/$meal")
         val productId = mealRef.push().key
@@ -128,7 +121,7 @@ class AddOwnProductsEditActivity : AppCompatActivity() {
 
         mealRef.child(productId!!).setValue(product).addOnCompleteListener {
 
-            println("udalo sieeeeee")
+            Log.d("TAG","Udało się dodać wartość do bazy")
         }
 
 

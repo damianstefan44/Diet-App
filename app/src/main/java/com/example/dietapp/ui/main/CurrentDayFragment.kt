@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -264,7 +265,6 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
 
         clearLists()
 
-        println("/userdata/$uid/$date/breakfast")
         val database = FirebaseDatabase.getInstance()
         val breakfastRef = database.getReference("/userdata/$uid/$date/breakfast").orderByChild("timestamp")
         val secondBreakfastRef = database.getReference("/userdata/$uid/$date/secondbreakfast").orderByChild("timestamp")
@@ -294,7 +294,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -314,7 +314,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -334,7 +334,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -354,7 +354,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -374,7 +374,7 @@ class CurrentDayFragment:Fragment(R.layout.fragment_current_day) {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
         breakfast.adapter?.notifyDataSetChanged()

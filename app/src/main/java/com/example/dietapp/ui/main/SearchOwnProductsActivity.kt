@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dietapp.R
+import com.example.dietapp.adapters.LimitedSearchedProductAdapter
 import com.example.dietapp.adapters.SearchedProductAdapter
 import com.example.dietapp.dataclasses.FirebaseProduct
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +22,7 @@ import com.google.firebase.database.ValueEventListener
 class SearchOwnProductsActivity : AppCompatActivity() {
 
     var meal: String = ""
-    var productAdapter: SearchedProductAdapter? = null
+    var productAdapter: LimitedSearchedProductAdapter? = null
     var recycler: RecyclerView? = null
     var searchEditText: EditText? = null
     private var nameList = mutableListOf<String>()
@@ -83,7 +85,7 @@ class SearchOwnProductsActivity : AppCompatActivity() {
     private fun retrieveProducts(searchText: EditText) {
 
         val database = FirebaseDatabase.getInstance()
-        val productsRef = database.getReference("/userproducts/$uid")
+        val productsRef = database.getReference("/userfavourites/$uid")
 
         productsRef.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -98,15 +100,15 @@ class SearchOwnProductsActivity : AppCompatActivity() {
 
 
                         }
-                        productAdapter = SearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                        productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
                         recycler!!.adapter = productAdapter
 
                     }
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
 
         })
@@ -117,7 +119,7 @@ class SearchOwnProductsActivity : AppCompatActivity() {
 
         var uid = FirebaseAuth.getInstance().uid ?: ""
         val database = FirebaseDatabase.getInstance()
-        val productsQuery = database.reference.child("userproducts/$uid").orderByKey().startAt(str).endAt(str + "\uf8ff")
+        val productsQuery = database.reference.child("userfavourites/$uid").orderByChild("name").startAt(str).endAt(str + "\uf8ff")
 
         productsQuery.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -127,16 +129,16 @@ class SearchOwnProductsActivity : AppCompatActivity() {
                         val productName = productSnapshot.key
                         val product = productSnapshot.getValue(FirebaseProduct::class.java)
                         productList.add(product!!)
-                        addToList(productName.toString(),product.proteins,product.fats,product.carbs,product.calories)
+                        addToList(product.name,product.proteins,product.fats,product.carbs,product.calories)
 
                     }
-                    productAdapter = SearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
+                    productAdapter = LimitedSearchedProductAdapter(applicationContext, meal, nameList, proteinsList, fatsList, carbsList, caloriesList)
                     recycler.adapter = productAdapter
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
 
         })

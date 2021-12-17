@@ -4,6 +4,7 @@ import android.R.layout
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -99,7 +100,7 @@ class MyDietsFragment:Fragment(R.layout.fragment_my_diets) {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
         myDiets.adapter?.notifyDataSetChanged()

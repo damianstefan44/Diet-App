@@ -2,6 +2,7 @@ package com.example.dietapp.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,7 +97,7 @@ class UserDietAdapter(context: Context, uid: String, private var names: MutableL
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 

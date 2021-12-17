@@ -71,9 +71,6 @@ class DietAdapter(context: Context, private var names: MutableList<String>, priv
         val database = FirebaseDatabase.getInstance()
         val dietRef = database.getReference("/userplans/$uid")
         val deleteId = ids[position]
-        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-        println(deleteId)
-        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
         names.removeAt(position)
         calories.removeAt(position)

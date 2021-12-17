@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -96,7 +97,7 @@ class FavouriteProductsFragment:Fragment(R.layout.fragment_favourite_products) {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
         favourites.adapter?.notifyDataSetChanged()

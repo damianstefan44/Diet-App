@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -93,6 +94,12 @@ class EditDietActivity : AppCompatActivity() {
                 ServerValue.TIMESTAMP)
 
             dietRef.child("values").setValue(dietValues)
+                .addOnSuccessListener {
+                    Log.d("TAG","Udało się dodać wartość do bazy")
+                }
+                .addOnFailureListener {
+                    Log.d("TAG","Nie udało się dodać wartości do bazy")
+                }
 
         }
 
@@ -335,7 +342,7 @@ class EditDietActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -360,7 +367,7 @@ class EditDietActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -385,7 +392,7 @@ class EditDietActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -410,7 +417,7 @@ class EditDietActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -435,7 +442,7 @@ class EditDietActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
         breakfast.adapter?.notifyDataSetChanged()
@@ -476,10 +483,6 @@ class EditDietActivity : AppCompatActivity() {
                 mealCaloriesCounter += (mealCaloriesList[i] * mealWeightList[i] / 100)
             }
         }
-        println("0000000000000000000000000000000000000000000000000000")
-        println(mealCaloriesCounter)
-        println("0000000000000000000000000000000000000000000000000000")
-
 
         when (mealType) {
             "breakfast" -> breakfastCalories!!.text = "$mealCaloriesCounter kcal"
@@ -533,6 +536,12 @@ class EditDietActivity : AppCompatActivity() {
         val dietCalories = breakfastCaloriesCounter + secondBreakfastCaloriesCounter + lunchCaloriesCounter + snackCaloriesCounter + dinnerCaloriesCounter
 
         dietRef.child("calories").setValue(dietCalories)
+            .addOnSuccessListener {
+                Log.d("TAG","Udało się dodać wartość do bazy")
+            }
+            .addOnFailureListener {
+                Log.d("TAG","Nie udało się dodać wartości do bazy")
+            }
 
 
     }

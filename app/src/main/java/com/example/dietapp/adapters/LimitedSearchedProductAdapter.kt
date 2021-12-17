@@ -69,12 +69,6 @@ class LimitedSearchedProductAdapter(context: Context, meal: String, private var 
         val fats = fats[position]
         val carbs = carbs[position]
         val calories = calories[position]
-        println(meal)
-        println(name)
-        println(proteins)
-        println(fats)
-        println(carbs)
-        println(calories)
         intent.putExtra("meal", meal)
         intent.putExtra("name", name)
         intent.putExtra("proteins", proteins)

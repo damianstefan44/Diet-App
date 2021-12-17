@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import com.example.dietapp.R
 import com.example.dietapp.databinding.ActivityAddOwnFavouriteProductsBinding
@@ -33,11 +34,6 @@ class AddOwnFavouriteProductsActivity : AppCompatActivity() {
             meal = bundle.getString("meal").toString()
         }
 
-        val name = binding.addOwnFavouriteProductName
-        val calories = binding.addOwnFavouriteProductCalories
-        val carbs = binding.addOwnFavouriteProductCarbs
-        val fats = binding.addOwnFavouriteProductFats
-        val proteins = binding.addOwnFavouriteProductProteins
         val addButton = binding.addOwnFavouriteProductAdd
 
 
@@ -110,10 +106,13 @@ class AddOwnFavouriteProductsActivity : AppCompatActivity() {
         val product = FavouriteProduct(productId.toString(), name.text.toString(), calories.text.toString().toInt(), carbs.text.toString().toInt(), fats.text.toString().toInt(), proteins.text.toString().toInt(),
             ServerValue.TIMESTAMP)
 
-        mealRef.child(productId!!).setValue(product).addOnCompleteListener {
-
-            println("udalo sieeeeee")
-        }
+        mealRef.child(productId!!).setValue(product)
+            .addOnSuccessListener {
+                Log.d("TAG","Udało się dodać wartość do bazy")
+            }
+            .addOnFailureListener {
+                Log.d("TAG","Nie udało się dodać wartości do bazy")
+            }
 
 
         val intent = Intent(applicationContext, MainActivity::class.java)

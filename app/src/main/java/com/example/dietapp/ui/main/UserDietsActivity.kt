@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,11 +36,6 @@ class UserDietsActivity : AppCompatActivity() {
             id = bundle.getString("id").toString()
             name = bundle.getString("name").toString()
         }
-
-        println("----------------------------")
-        println(id)
-        println(name)
-        println("----------------------------")
 
         val userDiets: RecyclerView = findViewById<View>(R.id.userDietsRecycler) as RecyclerView
 
@@ -75,7 +71,7 @@ class UserDietsActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
         myDiets.adapter?.notifyDataSetChanged()

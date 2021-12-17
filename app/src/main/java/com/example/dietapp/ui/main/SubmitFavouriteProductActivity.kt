@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -67,10 +68,13 @@ class SubmitFavouriteProductActivity : AppCompatActivity() {
         val product = FavouriteProduct(productId.toString(), name, calories, carbs, fats, proteins,
             ServerValue.TIMESTAMP)
 
-        favRef.child(productId!!).setValue(product).addOnCompleteListener {
-
-            println("udalo sieeeeee")
-        }
+        favRef.child(productId!!).setValue(product)
+            .addOnSuccessListener {
+                Log.d("TAG","Udało się dodać wartość do bazy")
+            }
+            .addOnFailureListener {
+                Log.d("TAG","Nie udało się dodać wartości do bazy")
+            }
 
         Functions.saveFragment(applicationContext,"fav")
         val intent = Intent(applicationContext, MainActivity::class.java).apply {

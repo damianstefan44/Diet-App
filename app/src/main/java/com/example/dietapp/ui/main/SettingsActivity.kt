@@ -66,7 +66,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    println("The read failed: " + databaseError.code)
+                    Log.d("TAG","The read failed: " + databaseError.code)
                 }
             })
 
@@ -119,7 +119,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 

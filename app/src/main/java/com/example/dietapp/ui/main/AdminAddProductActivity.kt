@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.dietapp.R
 import com.example.dietapp.databinding.ActivityAddOwnProductsBinding
@@ -90,20 +91,24 @@ class AdminAddProductActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val mealRef = database.getReference("/products")
         val productId = mealRef.push().key
-        val product = AdminProduct(name.text.toString(), calories.text.toString().toInt(), carbs.text.toString().toInt(), fats.text.toString().toInt(), proteins.text.toString().toInt(),
+        val product = AdminProduct(name.text.toString().lowercase(), calories.text.toString().toInt(), carbs.text.toString().toInt(), fats.text.toString().toInt(), proteins.text.toString().toInt(),
             ServerValue.TIMESTAMP)
 
-        mealRef.child(productId!!).setValue(product).addOnCompleteListener {
+        mealRef.child(productId!!).setValue(product)
 
-            Toast.makeText(applicationContext,"Udało się dodać produkt", Toast.LENGTH_LONG).show()
-            name.text.clear()
-            calories.text.clear()
-            carbs.text.clear()
-            fats.text.clear()
-            proteins.text.clear()
-            name.requestFocus()
-
-        }
+            .addOnSuccessListener {
+                Toast.makeText(applicationContext,"Udało się dodać produkt", Toast.LENGTH_LONG).show()
+                Log.d("TAG","Udało się dodać wartość produkt do bazy")
+                name.text.clear()
+                calories.text.clear()
+                carbs.text.clear()
+                fats.text.clear()
+                proteins.text.clear()
+                name.requestFocus()
+            }
+            .addOnFailureListener {
+                Log.d("TAG","Nie udało się dodać wartości do bazy")
+            }
 
 
 

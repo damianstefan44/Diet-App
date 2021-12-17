@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import com.example.dietapp.R
 import com.example.dietapp.databinding.ActivityAddOwnProductsBinding
@@ -31,21 +32,13 @@ class AddOwnProductsActivity : AppCompatActivity() {
             meal = bundle.getString("meal").toString()
         }
 
-        val name = binding.addOwnProductName
-        val calories = binding.addOwnProductCalories
-        val carbs = binding.addOwnProductCarbs
-        val fats = binding.addOwnProductFats
-        val proteins = binding.addOwnProductProteins
-        val weight = binding.addOwnProductWeight
         val addButton = binding.addOwnProductAdd
-
 
         addButton.setOnClickListener {
             addOwnProduct()
         }
 
     }
-
 
     private fun addOwnProduct() {
 
@@ -120,11 +113,13 @@ class AddOwnProductsActivity : AppCompatActivity() {
         val product = Product(productId.toString(), name.text.toString(),false, calories.text.toString().toInt(), carbs.text.toString().toInt(), fats.text.toString().toInt(), proteins.text.toString().toInt(), weight.text.toString().toInt(),
             ServerValue.TIMESTAMP)
 
-        mealRef.child(productId!!).setValue(product).addOnCompleteListener {
-
-            println("udalo sieeeeee")
-        }
-
+        mealRef.child(productId!!).setValue(product)
+            .addOnSuccessListener {
+                Log.d("TAG","Udało się dodać wartość do bazy")
+            }
+            .addOnFailureListener {
+                Log.d("TAG","Nie udało się dodać wartości do bazy")
+            }
 
         val intent = Intent(applicationContext, MainActivity::class.java).apply {
             flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

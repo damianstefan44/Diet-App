@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -97,8 +98,8 @@ class SearchUserDietsActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
 
         })
@@ -119,15 +120,6 @@ class SearchUserDietsActivity : AppCompatActivity() {
                         if(user!!.agreeToSearch) {
                             userList.add(user!!)
                             addToList(user.username, user.id)
-                            println("00000000000000000000000000000000000000")
-                            println(user.username)
-                            println("00000000000000000000000000000000000000")
-                            println(user.agreeToSearch)
-                            println("00000000000000000000000000000000000000")
-                            println(user.admin)
-                            println("00000000000000000000000000000000000000")
-                            println(user.id)
-                            println("00000000000000000000000000000000000000")
                         }
 
                     }
@@ -136,8 +128,8 @@ class SearchUserDietsActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
 
         })

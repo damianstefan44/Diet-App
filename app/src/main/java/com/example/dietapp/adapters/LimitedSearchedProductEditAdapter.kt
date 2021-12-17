@@ -72,12 +72,6 @@ class LimitedSearchedProductEditAdapter(context: Context, meal: String, id: Stri
         val fats = fats[position]
         val carbs = carbs[position]
         val calories = calories[position]
-        println(meal)
-        println(name)
-        println(proteins)
-        println(fats)
-        println(carbs)
-        println(calories)
         intent.putExtra("meal", meal)
         intent.putExtra("id", id)
         intent.putExtra("planName", planName)

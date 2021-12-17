@@ -3,6 +3,7 @@ package com.example.dietapp.ui.main
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.cesarferreira.tempo.Tempo
@@ -103,12 +104,18 @@ class LoadDietActivity : AppCompatActivity() {
                         val loadProduct = Product(productId.toString(), product.name,false, product.calories, product.carbs, product.fats, product.proteins, product.weight,
                             ServerValue.TIMESTAMP)
                         brRef.child(productId!!).setValue(loadProduct)
+                            .addOnSuccessListener {
+                                Log.d("TAG","Udało się dodać wartość do bazy")
+                            }
+                            .addOnFailureListener {
+                                Log.d("TAG","Nie udało się dodać wartości do bazy")
+                            }
                     }
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -122,12 +129,18 @@ class LoadDietActivity : AppCompatActivity() {
                         val loadProduct = Product(productId.toString(), product.name,false, product.calories, product.carbs, product.fats, product.proteins, product.weight,
                             ServerValue.TIMESTAMP)
                         secRef.child(productId!!).setValue(loadProduct)
+                            .addOnSuccessListener {
+                                Log.d("TAG","Udało się dodać wartość do bazy")
+                            }
+                            .addOnFailureListener {
+                                Log.d("TAG","Nie udało się dodać wartości do bazy")
+                            }
                     }
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -141,12 +154,18 @@ class LoadDietActivity : AppCompatActivity() {
                         val loadProduct = Product(productId.toString(), product.name,false, product.calories, product.carbs, product.fats, product.proteins, product.weight,
                             ServerValue.TIMESTAMP)
                         lunRef.child(productId!!).setValue(loadProduct)
+                            .addOnSuccessListener {
+                                Log.d("TAG","Udało się dodać wartość do bazy")
+                            }
+                            .addOnFailureListener {
+                                Log.d("TAG","Nie udało się dodać wartości do bazy")
+                            }
                     }
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -160,12 +179,18 @@ class LoadDietActivity : AppCompatActivity() {
                         val loadProduct = Product(productId.toString(), product.name,false, product.calories, product.carbs, product.fats, product.proteins, product.weight,
                             ServerValue.TIMESTAMP)
                         snRef.child(productId!!).setValue(loadProduct)
+                            .addOnSuccessListener {
+                                Log.d("TAG","Udało się dodać wartość do bazy")
+                            }
+                            .addOnFailureListener {
+                                Log.d("TAG","Nie udało się dodać wartości do bazy")
+                            }
                     }
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
@@ -179,12 +204,18 @@ class LoadDietActivity : AppCompatActivity() {
                         val loadProduct = Product(productId.toString(), product.name,false, product.calories, product.carbs, product.fats, product.proteins, product.weight,
                             ServerValue.TIMESTAMP)
                         dinRef.child(productId!!).setValue(loadProduct)
+                            .addOnSuccessListener {
+                                Log.d("TAG","Udało się dodać wartość do bazy")
+                            }
+                            .addOnFailureListener {
+                                Log.d("TAG","Nie udało się dodać wartości do bazy")
+                            }
                     }
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
+                Log.d("TAG","The read failed: " + databaseError.code)
             }
         })
 
